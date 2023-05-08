@@ -12,6 +12,9 @@ public static class AppExtension
         SeedRoleData.InitializeAsync(serviceProvider)
             .Wait();
 
+        SeedUserData.InitializeAsync(serviceProvider)
+            .Wait();
+
         return app;
     }
 }
