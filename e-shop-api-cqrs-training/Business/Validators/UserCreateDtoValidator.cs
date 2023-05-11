@@ -1,7 +1,7 @@
 using Business.Dtos.User;
 using FluentValidation;
 
-namespace Business.Validator;
+namespace Business.Validators;
 
 public class UserCreateDtoValidator : AbstractValidator<UserCreateDto>
 {

@@ -2,7 +2,7 @@ using Business.Dtos.User;
 using Business.Interfaces;
 using Dal.Entities;
 
-namespace Business.Mapping;
+namespace Business.Mappings;
 
 public class AppUserMapper : IAppUserMapper
 {

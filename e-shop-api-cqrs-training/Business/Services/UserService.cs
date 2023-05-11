@@ -1,6 +1,6 @@
 using Business.Dtos.User;
 using Business.Interfaces;
-using Business.Validator;
+using Business.Validators;
 using Dal.Commands.User;
 using Dal.Entities;
 using Dal.Queries.User;
@@ -24,7 +24,7 @@ public class UserService : IUserService
     public async Task<UserReadDto> Create(UserCreateDto dto)
     {
         await ValidateUserCreateDto(dto);
-        await GetUserExistByEmailOrThrow(dto.Email);
+        await CheckUserDoesNotExist(dto.Email);
 
         var userCommand = new CreateUserCommand()
         {
@@ -66,6 +66,11 @@ public class UserService : IUserService
     private async Task ValidateUserCreateDto(UserCreateDto dto) =>
         await new UserCreateDtoValidator().ValidateAndThrowAsync(dto);
 
-    private async Task<AppUser> GetUserExistByEmailOrThrow(string email) =>
-        await _mediator.Send(new GetUserByEmailQuery() { Email = email }) ?? throw new ConflictException<AppUser>();
+    private async Task CheckUserDoesNotExist(string email)
+    {
+        var userQuery = new GetUserByEmailQuery() { Email = email };
+        var user = await _mediator.Send(userQuery);
+        
+        if (user is not null) throw new ConflictException<AppUser>();
+    }
 }
