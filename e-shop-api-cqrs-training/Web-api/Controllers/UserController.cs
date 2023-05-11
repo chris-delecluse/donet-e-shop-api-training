@@ -20,7 +20,7 @@ public class UserController : ControllerBase
         try
         {
             var result = await _userService.Create(dto);
-            return Created("", result);
+            return Created($"api/user/{result.Id}", result);
         }
         catch (ValidationException e) { return BadRequest(new { e.Message }); }
         catch (ConflictException<AppUser> e) { return Conflict(new { e.Message }); }
@@ -37,8 +37,11 @@ public class UserController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<UserReadDto?>> GetOneById(string id)
     {
-        var result = await _userService.GetOne(id);
-
-        return Ok(result);
+        try
+        {
+            var result = await _userService.GetOneById(id);
+            return Ok(result);
+        }
+        catch (NotFoundException<AppUser> e) { return NotFound(new { e.Message }); }
     }
 }

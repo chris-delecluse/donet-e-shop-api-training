@@ -8,14 +8,14 @@ namespace Dal.Database.Seeds;
 
 public static class SeedRoleData
 {
-    private static readonly string[] _roleNames = new[] { "admin", "manager", "customer" };
+    private static readonly string[] RoleNames = new[] { "admin", "manager", "customer" };
 
     public static async Task InitializeAsync(IServiceProvider serviceProvider)
     {
         var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
         var mediator = serviceProvider.GetRequiredService<IMediator>();
 
-        foreach (string role in _roleNames)
+        foreach (string role in RoleNames)
         {
             if (!await roleManager.RoleExistsAsync(role))
             {
@@ -23,7 +23,7 @@ public static class SeedRoleData
                 await mediator.Send(roleCommand);
             }
         }
-
+ 
         await AddAdminClaims(roleManager);
         await AddManagerClaims(roleManager);
         await AddCustomerClaims(roleManager);

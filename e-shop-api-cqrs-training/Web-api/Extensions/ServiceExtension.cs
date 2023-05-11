@@ -1,6 +1,7 @@
 using Business.Commands.Role;
 using Business.Commands.User;
 using Business.Interfaces;
+using Business.Mapping;
 using Business.Queries.User;
 using Business.Services;
 using Dal.Commands.Role;
@@ -28,8 +29,11 @@ public static class ServiceExtension
         service.AddScoped<IRequestHandler<CreateUserCommand, CreateUserCommandResult>, CreateUserCommandHandler>();
         service.AddScoped<IRequestHandler<CreateRoleCommand, IdentityResult>, CreateRoleCommandHandler>();
 
-        service.AddScoped<IRequestHandler<GetUsersQuery, IEnumerable<AppUser>>, GetUsersHandler>();
-        service.AddScoped<IRequestHandler<GetUserQuery, AppUser>, GetUserHandler>();
+        service.AddScoped<IRequestHandler<GetAllUsersQuery, IEnumerable<AppUser>>, GetAllUsersHandler>();
+        service.AddScoped<IRequestHandler<GetUserByIdQuery, AppUser>, GetUserByIdHandler>();
+        service.AddScoped<IRequestHandler<GetUserByEmailQuery, AppUser>, GetUserByEmailHandler>();
+
+        service.AddScoped<IAppUserMapper, AppUserMapper>();
 
         return service;
     }

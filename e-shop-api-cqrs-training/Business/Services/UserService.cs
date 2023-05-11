@@ -13,13 +13,18 @@ namespace Business.Services;
 public class UserService : IUserService
 {
     private readonly IMediator _mediator;
+    private readonly IAppUserMapper _userMapper;
 
-    public UserService(IMediator mediator) { _mediator = mediator; }
+    public UserService(IMediator mediator, IAppUserMapper userMapper)
+    {
+        _mediator = mediator;
+        _userMapper = userMapper;
+    }
 
     public async Task<UserReadDto> Create(UserCreateDto dto)
     {
         await ValidateUserCreateDto(dto);
-        await CheckUserDoesNotExist(dto.Email);
+        await GetUserExistByEmailOrThrow(dto.Email);
 
         var userCommand = new CreateUserCommand()
         {
@@ -31,50 +36,36 @@ public class UserService : IUserService
         };
         var commandResult = await _mediator.Send(userCommand);
 
-        return new UserReadDto(commandResult.User.Id,
-            commandResult.User.FirstName,
-            commandResult.User.LastName,
-            commandResult.User.Email
-        );
+        return _userMapper.ToUserReadDto(commandResult.User);
     }
 
     public async Task<IEnumerable<UserReadDto>> GetAll()
     {
-        var usersQuery = new GetUsersQuery();
+        List<UserReadDto> userList = new List<UserReadDto>();
 
-        var result = await _mediator.Send(usersQuery);
-
-        List<UserReadDto> list = new List<UserReadDto>();
+        var result = await _mediator.Send(new GetAllUsersQuery());
 
         foreach (AppUser user in result)
         {
-            list.Add(new UserReadDto(user.Id, user.FirstName, user.LastName, user.Email));
+            userList.Add(_userMapper.ToUserReadDto(user));
         }
 
-        return list;
+        return userList;
     }
 
-    public async Task<UserReadDto?> GetOne(string id)
+    public async Task<UserReadDto?> GetOneById(string id)
     {
-        var userQuery = new GetUserQuery() { Id = id };
-
-        var result = await _mediator.Send(userQuery);
-
-        return new UserReadDto(result.Id, result.FirstName, result.LastName, result.Email);
+        try
+        {
+            var user = await _mediator.Send(new GetUserByIdQuery() { Id = id });
+            return _userMapper.ToUserReadDto(user);
+        }
+        catch (InvalidOperationException) { throw new NotFoundException<AppUser>(); }
     }
 
-    private async Task ValidateUserCreateDto(UserCreateDto dto)
-    {
-        UserCreateDtoValidator validator = new UserCreateDtoValidator();
+    private async Task ValidateUserCreateDto(UserCreateDto dto) =>
+        await new UserCreateDtoValidator().ValidateAndThrowAsync(dto);
 
-        await validator.ValidateAndThrowAsync(dto);
-    }
-
-    private async Task CheckUserDoesNotExist(string email)
-    {
-        var userQuery = new GetUserQuery() { Email = email };
-        var user = await _mediator.Send(userQuery);
-
-        if (user is not null) throw new ConflictException<AppUser>();
-    }
+    private async Task<AppUser> GetUserExistByEmailOrThrow(string email) =>
+        await _mediator.Send(new GetUserByEmailQuery() { Email = email }) ?? throw new ConflictException<AppUser>();
 }

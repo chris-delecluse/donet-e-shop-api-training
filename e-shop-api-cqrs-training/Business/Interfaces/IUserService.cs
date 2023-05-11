@@ -6,5 +6,5 @@ public interface IUserService
 {
     public Task<UserReadDto> Create(UserCreateDto dto);
     public Task<IEnumerable<UserReadDto>> GetAll();
-    public Task<UserReadDto?> GetOne(string id);
+    public Task<UserReadDto?> GetOneById(string id);
 }
