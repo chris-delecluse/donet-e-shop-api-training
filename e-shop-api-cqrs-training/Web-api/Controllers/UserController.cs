@@ -27,12 +27,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<UserReadDto>>> GetAll()
-    {
-        var result = await _userService.GetAll();
-
-        return Ok(result);
-    }
+    public async Task<ActionResult<IEnumerable<UserReadDto>>> GetAll() => Ok(await _userService.GetAll());
 
     [HttpGet("{id}")]
     public async Task<ActionResult<UserReadDto?>> GetOneById(string id)

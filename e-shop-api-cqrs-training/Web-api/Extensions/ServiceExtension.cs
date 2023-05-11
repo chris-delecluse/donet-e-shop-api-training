@@ -1,13 +1,12 @@
 using Business.Commands.Role;
 using Business.Commands.User;
 using Business.Interfaces;
-using Business.Mapping;
+using Business.Mappings;
 using Business.Queries.User;
 using Business.Services;
 using Dal.Commands.Role;
 using Dal.Commands.User;
 using Dal.Database.Access;
-using Dal.Database.Seeds;
 using Dal.Entities;
 using Dal.Queries.User;
 using MediatR;
