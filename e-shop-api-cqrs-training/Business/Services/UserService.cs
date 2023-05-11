@@ -1,5 +1,6 @@
 using Business.Dtos.User;
 using Business.Interfaces;
+using Business.Mappings;
 using Business.Validators;
 using Dal.Commands.User;
 using Dal.Entities;
@@ -13,12 +14,12 @@ namespace Business.Services;
 public class UserService : IUserService
 {
     private readonly IMediator _mediator;
-    private readonly IAppUserMapper _userMapper;
+    private readonly IAppMapper _appMapper;
 
-    public UserService(IMediator mediator, IAppUserMapper userMapper)
+    public UserService(IMediator mediator, IAppMapper appMapper)
     {
         _mediator = mediator;
-        _userMapper = userMapper;
+        _appMapper = appMapper;
     }
 
     public async Task<UserReadDto> Create(UserCreateDto dto)
@@ -36,7 +37,7 @@ public class UserService : IUserService
         };
         var commandResult = await _mediator.Send(userCommand);
 
-        return _userMapper.ToUserReadDto(commandResult.User);
+       return _appMapper.ToReadDto<AppUser, UserReadDto>(commandResult.User);
     }
 
     public async Task<IEnumerable<UserReadDto>> GetAll()
@@ -45,7 +46,10 @@ public class UserService : IUserService
 
         var users = await _mediator.Send(new GetAllUsersQuery());
 
-        foreach (AppUser user in users) { userReadDtoList.Add(_userMapper.ToUserReadDto(user)); }
+        foreach (AppUser user in users)
+        {
+            userReadDtoList.Add(_appMapper.ToReadDto<AppUser, UserReadDto>(user));
+        }
 
         return userReadDtoList;
     }
@@ -54,7 +58,7 @@ public class UserService : IUserService
     {
         var user = await _mediator.Send(new GetUserByIdQuery() { Id = id });
         
-        return _userMapper.ToUserReadDto(user);
+        return _appMapper.ToReadDto<AppUser, UserReadDto>(user);
     }
 
     private async Task ValidateUserCreateDto(UserCreateDto dto) =>

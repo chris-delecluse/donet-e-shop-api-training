@@ -32,8 +32,8 @@ public static class ServiceExtension
         service.AddScoped<IRequestHandler<GetUserByIdQuery, AppUser>, GetUserByIdHandler>();
         service.AddScoped<IRequestHandler<GetUserByEmailQuery, AppUser>, GetUserByEmailHandler>();
 
-        service.AddScoped<IAppUserMapper, AppUserMapper>();
-
+        service.AddScoped<IAppMapper, AppMapper>();
+        
         return service;
     }
 }
