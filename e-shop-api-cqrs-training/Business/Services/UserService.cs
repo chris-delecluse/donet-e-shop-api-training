@@ -41,26 +41,20 @@ public class UserService : IUserService
 
     public async Task<IEnumerable<UserReadDto>> GetAll()
     {
-        List<UserReadDto> userList = new List<UserReadDto>();
+        List<UserReadDto> userReadDtoList = new List<UserReadDto>();
 
-        var result = await _mediator.Send(new GetAllUsersQuery());
+        var users = await _mediator.Send(new GetAllUsersQuery());
 
-        foreach (AppUser user in result)
-        {
-            userList.Add(_userMapper.ToUserReadDto(user));
-        }
+        foreach (AppUser user in users) { userReadDtoList.Add(_userMapper.ToUserReadDto(user)); }
 
-        return userList;
+        return userReadDtoList;
     }
 
     public async Task<UserReadDto?> GetOneById(string id)
     {
-        try
-        {
-            var user = await _mediator.Send(new GetUserByIdQuery() { Id = id });
-            return _userMapper.ToUserReadDto(user);
-        }
-        catch (InvalidOperationException) { throw new NotFoundException<AppUser>(); }
+        var user = await _mediator.Send(new GetUserByIdQuery() { Id = id });
+        
+        return _userMapper.ToUserReadDto(user);
     }
 
     private async Task ValidateUserCreateDto(UserCreateDto dto) =>
@@ -68,9 +62,8 @@ public class UserService : IUserService
 
     private async Task CheckUserDoesNotExist(string email)
     {
-        var userQuery = new GetUserByEmailQuery() { Email = email };
-        var user = await _mediator.Send(userQuery);
-        
+        var user = await _mediator.Send(new GetUserByEmailQuery() { Email = email });
+
         if (user is not null) throw new ConflictException<AppUser>();
     }
 }

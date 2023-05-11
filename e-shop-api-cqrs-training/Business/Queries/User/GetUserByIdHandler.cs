@@ -1,5 +1,6 @@
 using Dal.Entities;
 using Dal.Queries.User;
+using Error;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, AppUser?>
 
     public async Task<AppUser?> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
-        return await _userManager.Users.FirstAsync(x => x.Id == request.Id, cancellationToken);
+        return await _userManager.Users.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken) ??
+               throw new NotFoundException<AppUser>();
     }
 }

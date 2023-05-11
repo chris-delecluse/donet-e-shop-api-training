@@ -19,10 +19,10 @@ public static class ServiceExtension
     public static IServiceCollection AddAllServices(this IServiceCollection service)
     {
         service.AddDbContext<AppDbContext>();
-        
+
         service.AddCustomIdentityConfiguration();
         service.AddMediatR(opt => opt.RegisterServicesFromAssembly(typeof(Program).Assembly));
-        
+
         service.AddScoped<IUserService, UserService>();
 
         service.AddScoped<IRequestHandler<CreateUserCommand, CreateUserCommandResult>, CreateUserCommandHandler>();
