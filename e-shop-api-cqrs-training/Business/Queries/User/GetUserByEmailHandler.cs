@@ -15,7 +15,6 @@ public class GetUserByEmailHandler : IRequestHandler<GetUserByEmailQuery, AppUse
 
     public async Task<AppUser?> Handle(GetUserByEmailQuery request, CancellationToken cancellationToken)
     {
-        return await _userManager.FindByEmailAsync(request.Email) ??
-               throw new NotFoundException<AppUser>();
+        return await _userManager.FindByEmailAsync(request.Email);
     }
 }

@@ -15,10 +15,10 @@ public class TokenService : ITokenService
 
     public TokenDto GenerateAccessToken(AppUser user, IEnumerable<string> role)
     {
-        string token = new JsonWebTokenBuilder(_configuration.GetValue<string>("Jwt:Key")!)
-            .AddIssuer(_configuration.GetValue<string>("Jwt:Issuer")!)
-            .AddAudience(_configuration.GetValue<string>("Jwt:Audience")!)
-            .AddClaim(ClaimTypes.NameIdentifier, user.Id.ToString())
+        string token = new JsonWebTokenBuilder(_configuration.GetValue<string>("Jwt:Secret")!)
+            .AddIssuer(_configuration.GetValue<string>("Jwt:ValidIssuer")!)
+            .AddAudience(_configuration.GetValue<string>("Jwt:ValidAudience")!)
+            .AddClaim(ClaimTypes.NameIdentifier, user.Id)
             .AddClaim(ClaimTypes.Email, user.Email!)
             .AddClaim(ClaimTypes.Role, role)
             .AddClaim("csrfToken", "csrfToken a gerer un peu plus tard")
