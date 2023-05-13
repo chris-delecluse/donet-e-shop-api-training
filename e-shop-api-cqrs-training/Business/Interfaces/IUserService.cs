@@ -4,7 +4,7 @@ namespace Business.Interfaces;
 
 public interface IUserService
 {
-    public Task<UserReadDto> Create(UserCreateDto dto);
-    public Task<IEnumerable<UserReadDto>> GetAll();
-    public Task<UserReadDto?> GetOneById(string id);
+    Task<UserReadDto> Create(UserCreateDto dto);
+    Task<IEnumerable<UserReadDto>> GetAll();
+    Task<UserReadDto?> GetOneById(string id);
 }

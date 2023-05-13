@@ -6,7 +6,7 @@ namespace Web_api.Extensions;
 
 public static class IdentityServiceExtension
 {
-    public static IServiceCollection AddCustomIdentityConfiguration(this IServiceCollection serviceCollection)
+    public static IServiceCollection RegisterIdentityService(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddIdentity<AppUser, IdentityRole>(opt =>
                 {

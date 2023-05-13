@@ -14,13 +14,15 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Web_api.Extensions;
 
-public static class ServiceExtension
+public static class AllServicesExtension
 {
-    public static IServiceCollection AddAllServices(this IServiceCollection service)
+    public static IServiceCollection AddAllServices(this IServiceCollection service, IConfiguration configuration)
     {
         service.AddDbContext<AppDbContext>();
 
-        service.AddCustomIdentityConfiguration();
+        service.RegisterIdentityService();
+        service.RegisterAuthenticationService(configuration);
+
         service.AddMediatR(opt => opt.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
         service.AddScoped<IUserService, UserService>();
@@ -33,7 +35,7 @@ public static class ServiceExtension
         service.AddScoped<IRequestHandler<GetUserByEmailQuery, AppUser>, GetUserByEmailHandler>();
 
         service.AddScoped<IAppMapper, AppMapper>();
-        
+
         return service;
     }
 }

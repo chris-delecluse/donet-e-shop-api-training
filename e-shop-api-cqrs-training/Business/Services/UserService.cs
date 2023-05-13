@@ -1,6 +1,5 @@
 using Business.Dtos.User;
 using Business.Interfaces;
-using Business.Mappings;
 using Business.Validators;
 using Dal.Commands.User;
 using Dal.Entities;

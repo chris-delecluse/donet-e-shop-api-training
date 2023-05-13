@@ -3,6 +3,7 @@ using Business.Interfaces;
 using Dal.Entities;
 using Error;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web_api.Controllers;
@@ -26,7 +27,7 @@ public class UserController : ControllerBase
         catch (ConflictException<AppUser> e) { return Conflict(new { e.Message }); }
     }
 
-    [HttpGet]
+    [HttpGet, Authorize]
     public async Task<ActionResult<IEnumerable<UserReadDto>>> GetAll() => Ok(await _userService.GetAll());
 
     [HttpGet("{id}")]
@@ -37,6 +38,6 @@ public class UserController : ControllerBase
             var result = await _userService.GetOneById(id);
             return Ok(result);
         }
-        catch (NotFoundException<AppUser> e) { return NotFound(new { e.Message }); }
+        catch (NotFoundException<AppUser> e) { return NotFound(new { e.Message, e.StackTrace }); }
     }
 }
