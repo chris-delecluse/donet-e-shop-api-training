@@ -40,6 +40,13 @@ public class JsonWebTokenBuilder : IJsonWebTokenBuilder
         return this;
     }
 
+    public IJsonWebTokenBuilder AddClaim(string type, IEnumerable<string> values)
+    {
+        foreach (string value in values) _claims.Add(new Claim(type, value));
+
+        return this;
+    }
+
     public IJsonWebTokenBuilder SetExpiration(DateTime expiration)
     {
         _expires = expiration;

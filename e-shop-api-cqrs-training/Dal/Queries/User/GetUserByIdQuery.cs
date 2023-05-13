@@ -5,5 +5,5 @@ namespace Dal.Queries.User;
 
 public class GetUserByIdQuery : IRequest<AppUser>
 {
-    public string Id { get; set; }
+    public string? Id { get; set; }
 }

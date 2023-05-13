@@ -1,4 +1,5 @@
 using Business.Dtos.User;
+using Dal.Entities;
 
 namespace Business.Interfaces;
 

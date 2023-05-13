@@ -25,15 +25,21 @@ public static class AllServicesExtension
 
         service.AddMediatR(opt => opt.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
+        // services
         service.AddScoped<IUserService, UserService>();
+        service.AddScoped<IAuthService, AuthService>();
+        service.AddScoped<ITokenService, TokenService>();
 
+        // cqrs commands
         service.AddScoped<IRequestHandler<CreateUserCommand, CreateUserCommandResult>, CreateUserCommandHandler>();
         service.AddScoped<IRequestHandler<CreateRoleCommand, IdentityResult>, CreateRoleCommandHandler>();
 
+        // cqrs queries
         service.AddScoped<IRequestHandler<GetAllUsersQuery, IEnumerable<AppUser>>, GetAllUsersHandler>();
         service.AddScoped<IRequestHandler<GetUserByIdQuery, AppUser>, GetUserByIdHandler>();
         service.AddScoped<IRequestHandler<GetUserByEmailQuery, AppUser>, GetUserByEmailHandler>();
 
+        // utilities
         service.AddScoped<IAppMapper, AppMapper>();
 
         return service;
