@@ -14,10 +14,10 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="MySql.EntityFrameworkCore" Version="7.0.2" />
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.15.1" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Interfaces\" />
       <Folder Include="Repositories\" />
     </ItemGroup>
 
