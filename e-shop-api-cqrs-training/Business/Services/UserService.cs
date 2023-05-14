@@ -7,6 +7,7 @@ using Dal.Queries.User;
 using Error;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 
 namespace Business.Services;
 
@@ -14,16 +15,18 @@ public class UserService : IUserService
 {
     private readonly IMediator _mediator;
     private readonly IAppMapper _appMapper;
+    private readonly UserManager<AppUser> _userManager;
 
-    public UserService(IMediator mediator, IAppMapper appMapper)
+    public UserService(IMediator mediator, IAppMapper appMapper, UserManager<AppUser> userManager)
     {
         _mediator = mediator;
         _appMapper = appMapper;
+        _userManager = userManager;
     }
 
     public async Task<UserReadDto> Create(UserCreateDto dto)
     {
-        await ValidateUserCreateDto(dto);
+        ValidateUserCreateDto(dto);
         await CheckUserDoesNotExist(dto.Email);
 
         var userCommand = new CreateUserCommand()
@@ -57,8 +60,10 @@ public class UserService : IUserService
         return _appMapper.ToReadDto<AppUser, UserReadDto>(user);
     }
 
-    private async Task ValidateUserCreateDto(UserCreateDto dto) =>
-        await new UserCreateDtoValidator().ValidateAndThrowAsync(dto);
+    public async Task<bool> ValidateUserPassword(AppUser user, string passwordEntry) =>
+        await _userManager.CheckPasswordAsync(user, passwordEntry);
+
+    private void ValidateUserCreateDto(UserCreateDto dto) => new UserCreateDtoValidator().ValidateAndThrowAsync(dto);
 
     private async Task CheckUserDoesNotExist(string email)
     {

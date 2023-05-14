@@ -1,9 +1,7 @@
 using Dal.Entities;
 using Dal.Queries.User;
-using Error;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace Business.Queries.User;
 

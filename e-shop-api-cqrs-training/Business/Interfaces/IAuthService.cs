@@ -6,5 +6,5 @@ namespace Business.Interfaces;
 public interface IAuthService
 {
     Task<UserReadDto> Create(UserCreateDto dto);
-    Task<TokenDto> Authenticate(LoginDto dto);
+    Task<SignInResponseDto> Authenticate(SignInRequestDto dto);
 }

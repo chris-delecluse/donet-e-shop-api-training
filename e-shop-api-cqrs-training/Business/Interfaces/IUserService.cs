@@ -8,4 +8,5 @@ public interface IUserService
     Task<UserReadDto> Create(UserCreateDto dto);
     Task<IEnumerable<UserReadDto>> GetAll();
     Task<UserReadDto?> GetOneById(string id);
+    Task<bool> ValidateUserPassword(AppUser user, string passwordEntry);
 }

@@ -38,6 +38,7 @@ public static class AllServicesExtension
         service.AddScoped<IRequestHandler<GetAllUsersQuery, IEnumerable<AppUser>>, GetAllUsersHandler>();
         service.AddScoped<IRequestHandler<GetUserByIdQuery, AppUser>, GetUserByIdHandler>();
         service.AddScoped<IRequestHandler<GetUserByEmailQuery, AppUser>, GetUserByEmailHandler>();
+        service.AddScoped<IRequestHandler<GetUserRoleQuery, IEnumerable<string>>, GetUserRoleHandler>();
 
         // utilities
         service.AddScoped<IAppMapper, AppMapper>();

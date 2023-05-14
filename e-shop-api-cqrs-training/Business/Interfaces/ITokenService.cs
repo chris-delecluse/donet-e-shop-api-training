@@ -5,5 +5,5 @@ namespace Business.Interfaces;
 
 public interface ITokenService
 {
-    TokenDto GenerateAccessToken(AppUser user, IEnumerable<string> role);
+    SignInResponseDto GenerateAccessToken(AppUser user, IEnumerable<string> role);
 }

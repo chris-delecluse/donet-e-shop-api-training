@@ -15,14 +15,15 @@ public class AuthController : ControllerBase
 
     public AuthController(IAuthService authService) { _authService = authService; }
 
-    [HttpPost, Route("local/sign-in")]
-    public async Task<ActionResult<TokenDto>> SignIn(LoginDto dto)
+    [HttpPost, Route("local/login")]
+    public async Task<ActionResult<SignInResponseDto>> SignIn(SignInRequestDto dto)
     {
         try
         {
             var result = await _authService.Authenticate(dto);
             return Ok(result);
         }
+        catch (UnAuthorizeException e) { return Unauthorized(new { e.Message, e.StackTrace }); }
         catch (Exception e) { return Unauthorized(new { e.Message, e.StackTrace }); }
     }
 

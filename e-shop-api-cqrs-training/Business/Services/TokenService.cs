@@ -13,8 +13,10 @@ public class TokenService : ITokenService
 
     public TokenService(IConfiguration configuration) { _configuration = configuration; }
 
-    public TokenDto GenerateAccessToken(AppUser user, IEnumerable<string> role)
+    public SignInResponseDto GenerateAccessToken(AppUser user, IEnumerable<string> role)
     {
+        var exp = DateTime.Now.AddMinutes(30);
+
         string token = new JsonWebTokenBuilder(_configuration.GetValue<string>("Jwt:Secret")!)
             .AddIssuer(_configuration.GetValue<string>("Jwt:ValidIssuer")!)
             .AddAudience(_configuration.GetValue<string>("Jwt:ValidAudience")!)
@@ -22,12 +24,9 @@ public class TokenService : ITokenService
             .AddClaim(ClaimTypes.Email, user.Email!)
             .AddClaim(ClaimTypes.Role, role)
             .AddClaim("csrfToken", "csrfToken a gerer un peu plus tard")
-            .SetExpiration(DateTime.Now.AddMinutes(30))
+            .SetExpiration(exp)
             .Build();
 
-        return new TokenDto(token,
-            DateTime.Now.AddMinutes(30)
-                .Millisecond
-        );
+        return new SignInResponseDto(token, new DateTimeOffset(exp).ToUnixTimeSeconds());
     }
 }
