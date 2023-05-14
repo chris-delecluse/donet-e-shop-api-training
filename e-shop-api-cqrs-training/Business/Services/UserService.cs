@@ -11,12 +11,21 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Business.Services;
 
+/// <summary>
+/// Service for managing user-related operations.
+/// </summary>
 public class UserService : IUserService
 {
     private readonly IMediator _mediator;
     private readonly IAppMapper _appMapper;
     private readonly UserManager<AppUser> _userManager;
 
+    /// <summary>
+    /// Constructor for UserService class.
+    /// </summary>
+    /// <param name="mediator">An instance of IMediator used for sending MediatR requests and receiving responses.</param>
+    /// <param name="appMapper">An instance of IAppMapper used for mapping objects between the application and domain layers.</param>
+    /// <param name="userManager">An instance of UserManager used for managing user authentication and authorization.</param>
     public UserService(IMediator mediator, IAppMapper appMapper, UserManager<AppUser> userManager)
     {
         _mediator = mediator;
@@ -24,6 +33,11 @@ public class UserService : IUserService
         _userManager = userManager;
     }
 
+    /// <summary>
+    /// Creates a new user.
+    /// </summary>
+    /// <param name="dto">Data to create the user.</param>
+    /// <returns>The newly created user.</returns>
     public async Task<UserReadDto> Create(UserCreateDto dto)
     {
         ValidateUserCreateDto(dto);
@@ -42,6 +56,10 @@ public class UserService : IUserService
         return _appMapper.ToReadDto<AppUser, UserReadDto>(commandResult.User);
     }
 
+    /// <summary>
+    /// Gets all users.
+    /// </summary>
+    /// <returns>A list of all users.</returns>
     public async Task<IEnumerable<UserReadDto>> GetAll()
     {
         List<UserReadDto> userReadDtoList = new List<UserReadDto>();
@@ -53,6 +71,11 @@ public class UserService : IUserService
         return userReadDtoList;
     }
 
+    /// <summary>
+    /// Gets a user by their ID.
+    /// </summary>
+    /// <param name="id">The ID of the user to get.</param>
+    /// <returns>The user with the specified ID, or null if no user was found.</returns>
     public async Task<UserReadDto?> GetOneById(string id)
     {
         AppUser? user = await _mediator.Send(new GetUserByIdQuery() { Id = id });
@@ -60,11 +83,26 @@ public class UserService : IUserService
         return _appMapper.ToReadDto<AppUser, UserReadDto>(user);
     }
 
+
+    /// <summary>
+    /// Validates a user's password.
+    /// </summary>
+    /// <param name="user">The user to validate the password for.</param>
+    /// <param name="passwordEntry">The password to validate.</param>
+    /// <returns>True if the password is valid, otherwise false.</returns>
     public async Task<bool> ValidateUserPassword(AppUser user, string passwordEntry) =>
         await _userManager.CheckPasswordAsync(user, passwordEntry);
 
+    /// <summary>
+    /// Validates a user creation DTO using a validator and throws an exception if the data is not valid.
+    /// </summary>
+    /// <param name="dto">The user creation DTO to validate.</param>
     private void ValidateUserCreateDto(UserCreateDto dto) => new UserCreateDtoValidator().ValidateAndThrowAsync(dto);
 
+    /// <summary>
+    /// Checks if a user with the given email address exists in the database and throws a conflict exception if it does.
+    /// </summary>
+    /// <param name="email">The email address to check for.</param>
     private async Task CheckUserDoesNotExist(string email)
     {
         AppUser? user = await _mediator.Send(new GetUserByEmailQuery() { Email = email });
