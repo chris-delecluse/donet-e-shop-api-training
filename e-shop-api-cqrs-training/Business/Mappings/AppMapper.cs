@@ -2,13 +2,15 @@ using Business.Interfaces;
 
 namespace Business.Mappings;
 
+/// <inheritdoc/>
 public class AppMapper : IAppMapper
 {
+    /// <inheritdoc/>
     public TOut ToReadDto<TIn, TOut>(TIn model) where TOut : class
     {
         var destinationType = typeof(TOut);
         var sourceType = typeof(TIn);
-        
+
         var destination = Activator.CreateInstance(destinationType);
 
         foreach (var sourceProperty in sourceType.GetProperties())

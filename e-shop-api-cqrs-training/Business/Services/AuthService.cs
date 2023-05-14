@@ -10,15 +10,13 @@ using MediatR;
 
 namespace Business.Services;
 
-/// <summary>
-/// This service handles authentication for users.
-/// </summary>
+/// <inheritdoc/>
 public class AuthService : IAuthService
 {
     private readonly IMediator _mediator;
     private readonly IUserService _userService;
     private readonly ITokenService _tokenService;
-    
+
     /// <summary>
     /// Initializes a new instance of the <see cref="AuthService"/> class.
     /// </summary>
@@ -32,19 +30,10 @@ public class AuthService : IAuthService
         _tokenService = tokenService;
     }
 
-    /// <summary>
-    /// Creates a new user account with the specified details.
-    /// </summary>
-    /// <param name="dto">The details of the user account to create.</param>
-    /// <returns>The details of the newly created user account.</returns>
+    /// <inheritdoc/>
     public async Task<UserReadDto> Create(UserCreateDto dto) => await _userService.Create(dto);
 
-    /// <summary>
-    /// Authenticates a user with the specified email and password.
-    /// </summary>
-    /// <param name="dto">The email and password of the user to authenticate.</param>
-    /// <returns>The authentication token generated for the authenticated user.</returns>
-    /// <exception cref="UnAuthorizeException">Thrown when the user cannot be authenticated.</exception>
+    /// <inheritdoc/>
     public async Task<SignInResponseDto> Authenticate(SignInRequestDto dto)
     {
         await ValidateLoginDto(dto);

@@ -11,9 +11,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Business.Services;
 
-/// <summary>
-/// Service for managing user-related operations.
-/// </summary>
+/// <inheritdoc/>
 public class UserService : IUserService
 {
     private readonly IMediator _mediator;
@@ -33,11 +31,7 @@ public class UserService : IUserService
         _userManager = userManager;
     }
 
-    /// <summary>
-    /// Creates a new user.
-    /// </summary>
-    /// <param name="dto">Data to create the user.</param>
-    /// <returns>The newly created user.</returns>
+    /// <inheritdoc/>
     public async Task<UserReadDto> Create(UserCreateDto dto)
     {
         ValidateUserCreateDto(dto);
@@ -56,10 +50,7 @@ public class UserService : IUserService
         return _appMapper.ToReadDto<AppUser, UserReadDto>(commandResult.User);
     }
 
-    /// <summary>
-    /// Gets all users.
-    /// </summary>
-    /// <returns>A list of all users.</returns>
+    /// <inheritdoc/>
     public async Task<IEnumerable<UserReadDto>> GetAll()
     {
         List<UserReadDto> userReadDtoList = new List<UserReadDto>();
@@ -71,11 +62,7 @@ public class UserService : IUserService
         return userReadDtoList;
     }
 
-    /// <summary>
-    /// Gets a user by their ID.
-    /// </summary>
-    /// <param name="id">The ID of the user to get.</param>
-    /// <returns>The user with the specified ID, or null if no user was found.</returns>
+    /// <inheritdoc/>
     public async Task<UserReadDto?> GetOneById(string id)
     {
         AppUser? user = await _mediator.Send(new GetUserByIdQuery() { Id = id });
@@ -83,13 +70,7 @@ public class UserService : IUserService
         return _appMapper.ToReadDto<AppUser, UserReadDto>(user);
     }
 
-
-    /// <summary>
-    /// Validates a user's password.
-    /// </summary>
-    /// <param name="user">The user to validate the password for.</param>
-    /// <param name="passwordEntry">The password to validate.</param>
-    /// <returns>True if the password is valid, otherwise false.</returns>
+    /// <inheritdoc/>
     public async Task<bool> ValidateUserPassword(AppUser user, string passwordEntry) =>
         await _userManager.CheckPasswordAsync(user, passwordEntry);
 

@@ -7,9 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Business.Services;
 
-/// <summary>
-/// A service responsible for generating access tokens for authenticated users.
-/// </summary>
+/// <inheritdoc/>
 public class TokenService : ITokenService
 {
     private readonly IConfiguration _configuration;
@@ -20,12 +18,7 @@ public class TokenService : ITokenService
     /// <param name="configuration">The configuration used to generate the access token.</param>
     public TokenService(IConfiguration configuration) { _configuration = configuration; }
 
-    /// <summary>
-    /// Generates an access token for the specified user and role.
-    /// </summary>
-    /// <param name="user">The user to generate the access token for.</param>
-    /// <param name="role">The role of the user.</param>
-    /// <returns>A response DTO containing the access token and its expiration time.</returns>
+    /// <inheritdoc/>
     public SignInResponseDto GenerateAccessToken(AppUser user, IEnumerable<string> role)
     {
         var exp = DateTime.Now.AddMinutes(30);
