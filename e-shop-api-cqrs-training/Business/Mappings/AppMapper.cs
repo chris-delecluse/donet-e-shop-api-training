@@ -2,7 +2,9 @@ using Business.Interfaces;
 
 namespace Business.Mappings;
 
-/// <inheritdoc/>
+/// <summary>
+/// Defines a mapper that can transform a model of type <typeparamref name="TIn"/> into a read-only DTO of type <typeparamref name="TOut"/>.
+/// </summary>
 public class AppMapper : IAppMapper
 {
     /// <inheritdoc/>

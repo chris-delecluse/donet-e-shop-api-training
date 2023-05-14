@@ -7,7 +7,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace Business.Services;
 
-/// <inheritdoc/>
+/// <summary>
+/// A service responsible for generating access tokens for authenticated users.
+/// </summary>
 public class TokenService : ITokenService
 {
     private readonly IConfiguration _configuration;

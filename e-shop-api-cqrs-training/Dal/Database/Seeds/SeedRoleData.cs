@@ -6,10 +6,19 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Dal.Database.Seeds;
 
+/// <summary>
+/// A static class responsible for seeding roles data in the database.
+/// </summary>
 public static class SeedRoleData
 {
     private static readonly string[] RoleNames = new[] { "admin", "manager", "customer" };
 
+    /// <summary>
+    /// Initializes roles in the database. If the role doesn't exist, a role is created with a specified name.
+    /// Appropriate claims are also added for each role.
+    /// </summary>
+    /// <param name="serviceProvider">Service provider used to get instances of role and mediator managers.</param>
+    /// <returns>An asynchronous task that represents the completion of role initialization.</returns>
     public static async Task InitializeAsync(IServiceProvider serviceProvider)
     {
         var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();

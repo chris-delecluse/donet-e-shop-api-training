@@ -4,6 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Dal.Database.Seeds;
 
+/// <summary>
+/// A static class responsible for seeding user data in the database.
+/// </summary>
 internal record SeedUserDataList(AppUser User, string Password);
 
 public static class SeedUserData
@@ -15,6 +18,11 @@ public static class SeedUserData
         )
     };
 
+    /// <summary>
+    /// Initializes the user data in the database by creating a user and adding them to the "admin" role if they don't already exist.
+    /// </summary>
+    /// <param name="serviceProvider">The service provider used to get instances of the user manager.</param>
+    /// <returns>An asynchronous task that represents the completion of the user data initialization.</returns>
     public static async Task InitializeAsync(IServiceProvider serviceProvider)
     {
         var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();

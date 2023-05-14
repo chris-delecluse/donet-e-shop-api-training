@@ -16,6 +16,12 @@ namespace Web_api.Extensions;
 
 public static class AllServicesExtension
 {
+    /// <summary>
+    /// Registers all the services, commands, queries and utilities required for the application
+    /// </summary>
+    /// <param name="service">The <see cref="IServiceCollection"/> to add the services to</param>
+    /// <param name="configuration">The configuration for the application</param>
+    /// <returns>The updated <see cref="IServiceCollection"/></returns>
     public static IServiceCollection AddAllServices(this IServiceCollection service, IConfiguration configuration)
     {
         service.AddDbContext<AppDbContext>();

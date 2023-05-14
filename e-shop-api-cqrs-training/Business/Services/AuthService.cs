@@ -10,7 +10,9 @@ using MediatR;
 
 namespace Business.Services;
 
-/// <inheritdoc/>
+/// <summary>
+/// This service handles authentication for users.
+/// </summary>
 public class AuthService : IAuthService
 {
     private readonly IMediator _mediator;

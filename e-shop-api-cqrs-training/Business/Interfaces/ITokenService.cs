@@ -4,7 +4,7 @@ using Dal.Entities;
 namespace Business.Interfaces;
 
 /// <summary>
-/// A service responsible for generating access tokens for authenticated users.
+/// An interface for generating JSON Web Tokens.
 /// </summary>
 public interface ITokenService
 {

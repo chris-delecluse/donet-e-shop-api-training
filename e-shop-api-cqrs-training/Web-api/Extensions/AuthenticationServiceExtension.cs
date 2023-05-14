@@ -4,8 +4,17 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Web_api.Extensions;
 
+/// <summary>
+/// A static class responsible for registering authentication services with the service collection.
+/// </summary>
 public static class AuthenticationServiceExtension
 {
+    /// <summary>
+    /// Registers JWT authentication services with the service collection.
+    /// </summary>
+    /// <param name="service">The service collection to register the authentication services with.</param>
+    /// <param name="configuration">The configuration instance containing JWT settings.</param>
+    /// <returns>The updated service collection.</returns>
     public static IServiceCollection RegisterAuthenticationService(
         this IServiceCollection service,
         IConfiguration configuration

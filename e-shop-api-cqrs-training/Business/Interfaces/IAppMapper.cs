@@ -1,7 +1,7 @@
 namespace Business.Interfaces;
 
 /// <summary>
-/// Defines a mapper that can transform a model of type <typeparamref name="TIn"/> into a read-only DTO of type <typeparamref name="TOut"/>.
+/// An interface for mapping business models to DTOs.
 /// </summary>
 public interface IAppMapper
 {

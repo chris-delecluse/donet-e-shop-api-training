@@ -4,6 +4,11 @@ namespace Web_api.Extensions;
 
 public static class SwaggerServiceExtension
 {
+    /// <summary>
+    /// Registers the Swagger generator and configures it for the API.
+    /// </summary>
+    /// <param name="service">The IServiceCollection instance to register the Swagger generator with.</param>
+    /// <returns>The IServiceCollection instance with the Swagger generator registered and configured.</returns>
     public static IServiceCollection AddSwaggerGenConfigured(this IServiceCollection service)
     {
         service.AddSwaggerGen(option =>

@@ -4,7 +4,7 @@ using Dal.Entities;
 namespace Business.Interfaces;
 
 /// <summary>
-/// Service for managing user-related operations.
+/// An interface for interacting with user entities.
 /// </summary>
 public interface IUserService
 {

@@ -11,7 +11,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Business.Services;
 
-/// <inheritdoc/>
+/// <summary>
+/// Service for managing user-related operations.
+/// </summary>
 public class UserService : IUserService
 {
     private readonly IMediator _mediator;
