@@ -43,6 +43,12 @@ public static class AuthenticationServiceExtension
                             )
                     };
                 }
+            )
+            .AddGoogle(opt =>
+                {
+                    opt.ClientId = configuration.GetValue<string>("Google:ClientId")!;
+                    opt.ClientSecret = configuration.GetValue<string>("Google:ClientSecret")!;
+                }
             );
 
         return service;

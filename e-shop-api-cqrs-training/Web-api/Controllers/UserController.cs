@@ -15,7 +15,7 @@ public class UserController : ControllerBase
 
     public UserController(IUserService userService) { _userService = userService; }
 
-    [HttpPost]
+    [HttpPost, Authorize(Roles = "admin")]
     public async Task<ActionResult<UserReadDto>> Create(UserCreateDto dto)
     {
         try
@@ -27,7 +27,7 @@ public class UserController : ControllerBase
         catch (ConflictException<AppUser> e) { return Conflict(new { e.Message }); }
     }
 
-    [HttpGet, Authorize]
+    [HttpGet, Authorize(Roles = "admin")]
     public async Task<ActionResult<IEnumerable<UserReadDto>>> GetAll() => Ok(await _userService.GetAll());
 
     [HttpGet("{id}")]
