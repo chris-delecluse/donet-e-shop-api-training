@@ -19,7 +19,6 @@ public class GetAllUsersHandler : IRequestHandler<GetAllUsersQuery, IEnumerable<
     /// <param name="userManager">The <see cref="UserManager{TUser}"/> used to manage user accounts.</param>
     public GetAllUsersHandler(UserManager<AppUser> userManager) { _userManager = userManager; }
 
-    /// <inheritdoc/>
     public async Task<IEnumerable<AppUser>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
     {
         return await _userManager.Users.ToListAsync(cancellationToken);

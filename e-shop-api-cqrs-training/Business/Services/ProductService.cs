@@ -12,6 +12,7 @@ public class ProductService : IProductService
 
     public ProductService(IMediator mediator) { _mediator = mediator; }
 
+    // a continué (validation ect..)
     public async Task<Product> Create(ProductCreateDto productCreateDto)
     {
         var command = new CreateProductCommand()

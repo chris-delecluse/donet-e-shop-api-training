@@ -18,7 +18,6 @@ public class GetUserRoleHandler : IRequestHandler<GetUserRoleQuery, IEnumerable<
     /// <param name="userManager">The user manager.</param>
     public GetUserRoleHandler(UserManager<AppUser> userManager) { _userManager = userManager; }
 
-    /// <inheritdoc/>
     public async Task<IEnumerable<string>> Handle(GetUserRoleQuery request, CancellationToken cancellationToken)
     {
         return await _userManager.GetRolesAsync(request.User);

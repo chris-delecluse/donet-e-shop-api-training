@@ -17,13 +17,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
     /// </summary>
     /// <param name="productRepository">The product repository</param>
     public CreateProductCommandHandler(IProductRepository productRepository) { _productRepository = productRepository; }
-
-    /// <summary>
-    /// Handles the specified create product command.
-    /// </summary>
-    /// <param name="request">The create product command.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>The task containing the result of creating the product.</returns>
+    
     public async Task<E.Product> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
         E.Product product = new E.Product()

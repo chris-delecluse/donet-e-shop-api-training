@@ -20,7 +20,6 @@ public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, AppUser?>
     /// <param name="userManager">The user manager.</param>
     public GetUserByIdHandler(UserManager<AppUser> userManager) { _userManager = userManager; }
 
-    /// <inheritdoc/>
     public async Task<AppUser?> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
         return await _userManager.Users.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken) ??

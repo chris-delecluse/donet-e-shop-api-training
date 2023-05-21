@@ -18,7 +18,6 @@ public class GetUserByEmailHandler : IRequestHandler<GetUserByEmailQuery, AppUse
     /// <param name="userManager">The user manager.</param>
     public GetUserByEmailHandler(UserManager<AppUser> userManager) { _userManager = userManager; }
 
-    /// <inheritdoc/>
     public async Task<AppUser?> Handle(GetUserByEmailQuery request, CancellationToken cancellationToken)
     {
         return await _userManager.FindByEmailAsync(request.Email);

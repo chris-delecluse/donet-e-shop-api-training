@@ -26,5 +26,9 @@ public class ProductRepository : IProductRepository
         return result.Entity;
     }
 
-    public async Task<IEnumerable<Product>> GetAllAsync() => await _dbContext.Products.ToListAsync();
+    public async Task<IEnumerable<Product>> FindAsync() => await _dbContext.Products.ToListAsync();
+    
+    public Task<IEnumerable<Product>> FindAsync(CancellationToken cancellationToken) => throw new NotImplementedException();
+    public Task<Product?> FindAsync(Guid id) => throw new NotImplementedException();
+    public Task<Product?> FindAsync(Guid id, CancellationToken cancellationToken) => throw new NotImplementedException();
 }

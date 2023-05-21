@@ -20,7 +20,6 @@ public class TokenService : ITokenService
     /// <param name="configuration">The configuration used to generate the access token.</param>
     public TokenService(IConfiguration configuration) { _configuration = configuration; }
 
-    /// <inheritdoc/>
     public SignInResponseDto GenerateAccessToken(AppUser user, IEnumerable<string> role)
     {
         var exp = DateTime.Now.AddMinutes(30);

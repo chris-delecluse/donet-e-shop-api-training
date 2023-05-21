@@ -32,10 +32,8 @@ public class AuthService : IAuthService
         _tokenService = tokenService;
     }
 
-    /// <inheritdoc/>
     public async Task<UserReadDto> Register(UserCreateDto dto) => await _userService.Create(dto);
 
-    /// <inheritdoc/>
     public async Task<SignInResponseDto> Authenticate(SignInRequestDto dto)
     {
         await ValidateLoginDto(dto);

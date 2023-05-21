@@ -7,7 +7,6 @@ namespace Business.Mappings;
 /// </summary>
 public class AppMapper : IAppMapper
 {
-    /// <inheritdoc/>
     public TOut ToReadDto<TIn, TOut>(TIn model) where TOut : class
     {
         var destinationType = typeof(TOut);

@@ -33,7 +33,6 @@ public class UserService : IUserService
         _userManager = userManager;
     }
 
-    /// <inheritdoc/>
     public async Task<UserReadDto> Create(UserCreateDto dto)
     {
         await ValidateUserCreateDto(dto);
@@ -52,7 +51,6 @@ public class UserService : IUserService
         return _appMapper.ToReadDto<AppUser, UserReadDto>(commandResult.User);
     }
 
-    /// <inheritdoc/>
     public async Task<IEnumerable<UserReadDto>> GetAll()
     {
         List<UserReadDto> userReadDtoList = new List<UserReadDto>();
@@ -64,7 +62,6 @@ public class UserService : IUserService
         return userReadDtoList;
     }
 
-    /// <inheritdoc/>
     public async Task<UserReadDto?> GetOneById(string id)
     {
         AppUser? user = await _mediator.Send(new GetUserByIdQuery() { Id = id });
@@ -72,7 +69,6 @@ public class UserService : IUserService
         return _appMapper.ToReadDto<AppUser, UserReadDto>(user);
     }
 
-    /// <inheritdoc/>
     public async Task<bool> ValidateUserPassword(AppUser user, string passwordEntry) =>
         await _userManager.CheckPasswordAsync(user, passwordEntry);
 
