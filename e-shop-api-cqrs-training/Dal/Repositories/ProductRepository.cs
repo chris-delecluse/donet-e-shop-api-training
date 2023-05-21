@@ -27,8 +27,12 @@ public class ProductRepository : IProductRepository
     }
 
     public async Task<IEnumerable<Product>> FindAsync() => await _dbContext.Products.ToListAsync();
-    
-    public Task<IEnumerable<Product>> FindAsync(CancellationToken cancellationToken) => throw new NotImplementedException();
-    public Task<Product?> FindAsync(Guid id) => throw new NotImplementedException();
-    public Task<Product?> FindAsync(Guid id, CancellationToken cancellationToken) => throw new NotImplementedException();
+
+    public async Task<IEnumerable<Product>> FindAsync(CancellationToken cancellationToken) =>
+        await _dbContext.Products.ToListAsync(cancellationToken);
+
+    public async Task<Product?> FindAsync(Guid id) => await _dbContext.Products.FirstOrDefaultAsync(x => x.Id == id);
+
+    public async Task<Product?> FindAsync(Guid id, CancellationToken cancellationToken) =>
+        await _dbContext.Products.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 }

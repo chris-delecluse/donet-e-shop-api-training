@@ -13,6 +13,14 @@ public class CategoryController : ControllerBase
 
     public CategoryController(ICategoryService categoryService) { _categoryService = categoryService; }
 
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<CategoryReadDto>>> GetAll()
+    {
+        var result = await _categoryService.GetAll();
+
+        return Ok(result);
+    }
+
     // mieux gerer les erreurs
     [HttpPost]
     public async Task<ActionResult<CategoryReadDto>> Create(CategoryCreateDto dto)
@@ -24,18 +32,5 @@ public class CategoryController : ControllerBase
             return Ok(result);
         }
         catch (ConflictException<Category> e) { return Conflict(new { e.Message }); }
-    }
-
-    // mieux gerer les erreurs
-    [HttpGet("{name}")]
-    public async Task<ActionResult<Category>> GetOne(string name)
-    {
-        try
-        {
-            var result = await _categoryService.GetOne(name);
-
-            return Ok(result);
-        }
-        catch (NotFoundException<Category> e) { return NotFound(new { e.Message }); }
     }
 }

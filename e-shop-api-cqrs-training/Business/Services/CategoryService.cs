@@ -1,4 +1,5 @@
 using Business.Dtos.Category;
+using Business.Dtos.User;
 using Business.Interfaces;
 using Business.Validators;
 using Dal.Commands.Category;
@@ -26,14 +27,25 @@ public class CategoryService : ICategoryService
         await ValidateCategoryCreateDto(dto);
         await CheckCategoryDoesNotExist(dto);
 
-        var command = new CreateCategoryCommand()
-        {
-            Name = dto.Name
-        };
+        var command = new CreateCategoryCommand() { Name = dto.Name };
 
         Category category = await _mediator.Send(command);
 
         return _appMapper.ToReadDto<Category, CategoryReadDto>(category);
+    }
+
+    public async Task<IEnumerable<CategoryReadDto>> GetAll()
+    {
+        List<CategoryReadDto> categoryReadDtoList = new List<CategoryReadDto>();
+
+        IEnumerable<Category> command = await _mediator.Send(new GetAllCategoryQuery());
+
+        foreach (Category category in command)
+        {
+            categoryReadDtoList.Add(_appMapper.ToReadDto<Category, CategoryReadDto>(category));
+        }
+
+        return categoryReadDtoList;
     }
 
     // a changer pour un id, c'était pour tester.

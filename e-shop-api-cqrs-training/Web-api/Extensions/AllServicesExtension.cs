@@ -61,6 +61,8 @@ public static class AllServicesExtension
         service.AddScoped<IRequestHandler<GetUserByIdQuery, AppUser?>, GetUserByIdHandler>();
         service.AddScoped<IRequestHandler<GetUserByEmailQuery, AppUser?>, GetUserByEmailHandler>();
         service.AddScoped<IRequestHandler<GetUserRoleQuery, IEnumerable<string>>, GetUserRoleHandler>();
+        service.AddScoped<IRequestHandler<GetAllCategoryQuery, IEnumerable<Category>>, GetAllCategoryHandler>();
+        service.AddScoped<IRequestHandler<GetCategoryByIdQuery, Category?>, GetCategoryByIdHandler>();
         service.AddScoped<IRequestHandler<GetCategoryByNameQuery, Category?>, GetCategoryByNameHandler>();
 
         // utilities
