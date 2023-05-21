@@ -38,6 +38,6 @@ public class UserController : ControllerBase
             var result = await _userService.GetOneById(id);
             return Ok(result);
         }
-        catch (NotFoundException<AppUser> e) { return NotFound(new { e.Message, e.StackTrace }); }
+        catch (NotFoundException<AppUser> e) { return NotFound(new { e.Message}); }
     }
 }

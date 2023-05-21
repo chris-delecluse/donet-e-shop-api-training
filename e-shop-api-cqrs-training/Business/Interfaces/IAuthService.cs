@@ -14,7 +14,7 @@ public interface IAuthService
     /// </summary>
     /// <param name="dto">The details of the user account to create.</param>
     /// <returns>The details of the newly created user account.</returns>
-    Task<UserReadDto> Create(UserCreateDto dto);
+    Task<UserReadDto> Register(UserCreateDto dto);
 
     /// <summary>
     /// Authenticates a user with the specified email and password.

@@ -1,14 +1,18 @@
+using Business.Commands.Product;
 using Business.Commands.Role;
 using Business.Commands.User;
 using Business.Interfaces;
 using Business.Mappings;
 using Business.Queries.User;
 using Business.Services;
+using Dal.Commands.Product;
 using Dal.Commands.Role;
 using Dal.Commands.User;
 using Dal.Database.Access;
 using Dal.Entities;
+using Dal.Interfaces;
 using Dal.Queries.User;
+using Dal.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -31,14 +35,21 @@ public static class AllServicesExtension
 
         service.AddMediatR(opt => opt.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
+        // repositories
+        service.AddScoped<IProductRepository, ProductRepository>();
+        service.AddScoped<ICategoryRepository, CategoryRepository>();
+        
         // services
         service.AddScoped<IUserService, UserService>();
         service.AddScoped<IAuthService, AuthService>();
         service.AddScoped<ITokenService, TokenService>();
+        service.AddScoped<IProductService, ProductService>();
+        service.AddScoped<ICategoryService, CategoryService>();
 
         // cqrs commands
         service.AddScoped<IRequestHandler<CreateUserCommand, CreateUserCommandResult>, CreateUserCommandHandler>();
         service.AddScoped<IRequestHandler<CreateRoleCommand, IdentityResult>, CreateRoleCommandHandler>();
+        service.AddScoped<IRequestHandler<CreateProductCommand, Product>, CreateProductCommandHandler>();
 
         // cqrs queries
         service.AddScoped<IRequestHandler<GetAllUsersQuery, IEnumerable<AppUser>>, GetAllUsersHandler>();

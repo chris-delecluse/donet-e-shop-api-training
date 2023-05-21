@@ -14,7 +14,7 @@ public static class SeedUserData
     private static readonly IEnumerable<SeedUserDataList> _userList = new List<SeedUserDataList>()
     {
         new(new() { FirstName = "admin", LastName = "admin", Email = "admin@gmail.com", UserName = "admin@gmail.com" },
-            "Pa$$w0rd"
+            "@Dmin1"
         )
     };
 

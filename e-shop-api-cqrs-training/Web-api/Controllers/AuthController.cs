@@ -23,8 +23,7 @@ public class AuthController : ControllerBase
             var result = await _authService.Authenticate(dto);
             return Ok(result);
         }
-        catch (UnAuthorizeException e) { return Unauthorized(new { e.Message, e.StackTrace }); }
-        catch (Exception e) { return Unauthorized(new { e.Message, e.StackTrace }); }
+        catch (Exception e) { return Unauthorized(new { e.Message }); }
     }
 
     [HttpPost, Route("local/register")]
@@ -32,7 +31,7 @@ public class AuthController : ControllerBase
     {
         try
         {
-            var result = await _authService.Create(dto);
+            var result = await _authService.Register(dto);
             return Created($"api/user/{result.Id}", result);
         }
         catch (ValidationException e) { return BadRequest(new { e.Message }); }

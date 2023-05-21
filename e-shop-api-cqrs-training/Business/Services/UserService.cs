@@ -36,7 +36,7 @@ public class UserService : IUserService
     /// <inheritdoc/>
     public async Task<UserReadDto> Create(UserCreateDto dto)
     {
-        ValidateUserCreateDto(dto);
+        await ValidateUserCreateDto(dto);
         await CheckUserDoesNotExist(dto.Email);
 
         var userCommand = new CreateUserCommand()
@@ -80,7 +80,8 @@ public class UserService : IUserService
     /// Validates a user creation DTO using a validator and throws an exception if the data is not valid.
     /// </summary>
     /// <param name="dto">The user creation DTO to validate.</param>
-    private void ValidateUserCreateDto(UserCreateDto dto) => new UserCreateDtoValidator().ValidateAndThrowAsync(dto);
+    private async Task ValidateUserCreateDto(UserCreateDto dto) =>
+        await new UserCreateDtoValidator().ValidateAndThrowAsync(dto);
 
     /// <summary>
     /// Checks if a user with the given email address exists in the database and throws a conflict exception if it does.

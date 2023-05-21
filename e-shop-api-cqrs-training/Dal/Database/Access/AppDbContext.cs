@@ -13,6 +13,15 @@ public class AppDbContext : IdentityDbContext<AppUser, IdentityRole, string>
 {
     private readonly IConfiguration _configuration;
 
+    public DbSet<Product> Products { get; set; } 
+    public DbSet<Category> Categories { get; set; }
+    // public DbSet<ProductImage> Images { get; set; }
+    // public DbSet<Review> Reviews { get; set; }
+    // public DbSet<Stock> Stocks { get; set; }
+    // public DbSet<Order> Orders { get; set; }
+    // public DbSet<OrderItem> Items { get; set; }
+    // public DbSet<OrderStatus> Status { get; set; }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="AppDbContext"/> class with the specified configuration.
     /// </summary>

@@ -33,7 +33,7 @@ public class AuthService : IAuthService
     }
 
     /// <inheritdoc/>
-    public async Task<UserReadDto> Create(UserCreateDto dto) => await _userService.Create(dto);
+    public async Task<UserReadDto> Register(UserCreateDto dto) => await _userService.Create(dto);
 
     /// <inheritdoc/>
     public async Task<SignInResponseDto> Authenticate(SignInRequestDto dto)

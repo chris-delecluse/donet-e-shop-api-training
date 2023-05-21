@@ -35,9 +35,9 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Creat
             UserName = request.Email
         };
 
-        var commandResult = await _userManager.CreateAsync(user, request.Password);
+        var result = await _userManager.CreateAsync(user, request.Password);
 
-        if (commandResult.Succeeded) await _userManager.AddToRoleAsync(user, RoleName.Customer.ToString());
+        if (result.Succeeded) await _userManager.AddToRoleAsync(user, RoleName.Customer.ToString());
 
         return new CreateUserCommandResult() { User = user };
     }
