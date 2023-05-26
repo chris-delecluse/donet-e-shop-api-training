@@ -1,3 +1,6 @@
 namespace Business.Dtos.User;
 
-public record UserCreateDto(string FirstName, string LastName, string Email, string Password);
+public class UserCreateDto: BaseUserDto
+{
+    public string Password { get; init; }
+}

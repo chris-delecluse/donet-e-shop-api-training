@@ -51,21 +51,25 @@ public static class AllServicesExtension
         service.AddScoped<ITokenService, TokenService>();
         service.AddScoped<IProductService, ProductService>();
         service.AddScoped<ICategoryService, CategoryService>();
-
-        // cqrs commands
+        
+        // cqrs user
         service.AddScoped<IRequestHandler<CreateUserCommand, CreateUserCommandResult>, CreateUserCommandHandler>();
-        service.AddScoped<IRequestHandler<CreateRoleCommand, IdentityResult>, CreateRoleCommandHandler>();
-        service.AddScoped<IRequestHandler<CreateCategoryCommand, Category>, CreateCategoryCommandHandler>();
-        service.AddScoped<IRequestHandler<CreateProductCommand, Product>, CreateProductCommandHandler>();
-
-        // cqrs queries
         service.AddScoped<IRequestHandler<GetAllUsersQuery, IEnumerable<AppUser>>, GetAllUsersHandler>();
         service.AddScoped<IRequestHandler<GetUserByIdQuery, AppUser?>, GetUserByIdHandler>();
         service.AddScoped<IRequestHandler<GetUserByEmailQuery, AppUser?>, GetUserByEmailHandler>();
+        
+        // cqrs role
+        service.AddScoped<IRequestHandler<CreateRoleCommand, IdentityResult>, CreateRoleCommandHandler>();
         service.AddScoped<IRequestHandler<GetUserRoleQuery, IEnumerable<string>>, GetUserRoleHandler>();
+        
+        // cqrs category
+        service.AddScoped<IRequestHandler<CreateCategoryCommand, Category>, CreateCategoryCommandHandler>();
         service.AddScoped<IRequestHandler<GetAllCategoryQuery, IEnumerable<Category>>, GetAllCategoryHandler>();
         service.AddScoped<IRequestHandler<GetCategoryByIdQuery, Category?>, GetCategoryByIdHandler>();
         service.AddScoped<IRequestHandler<GetCategoryByNameQuery, Category?>, GetCategoryByNameHandler>();
+        
+        // cqrs product
+        service.AddScoped<IRequestHandler<CreateProductCommand, Product>, CreateProductCommandHandler>();
         service.AddScoped<IRequestHandler<GetAllProductQuery, IEnumerable<Product>>, GetAllProductHandler>();
         service.AddScoped<IRequestHandler<GetProductByIdQuery, Product?>, GetProductByIdHandler>();
         service.AddScoped<IRequestHandler<GetProductIncludeCategoryById, Product?>, GetProductIncludeCategoryByIdHandler>();

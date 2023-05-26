@@ -1,7 +1,6 @@
 namespace Business.Dtos.Category;
 
-public class CategoryReadDto
+public class CategoryReadDto : BaseCategoryDto
 {
     public Guid Id { get; init; }
-    public string Name { get; init; }
 }
