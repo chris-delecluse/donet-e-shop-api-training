@@ -15,7 +15,7 @@ public class AuthController : ControllerBase
 
     public AuthController(IAuthService authService) { _authService = authService; }
 
-    [HttpPost, Route("local/login")]
+    [HttpPost("local/login")]
     public async Task<ActionResult<SignInResponseDto>> SignIn(SignInRequestDto dto)
     {
         try
@@ -26,7 +26,7 @@ public class AuthController : ControllerBase
         catch (Exception e) { return Unauthorized(new { e.Message }); }
     }
 
-    [HttpPost, Route("local/register")]
+    [HttpPost("local/register")]
     public async Task<ActionResult<UserReadDto>> Register(UserCreateDto dto)
     {
         try

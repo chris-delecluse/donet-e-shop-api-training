@@ -31,8 +31,8 @@ public class ProductRepository : IProductRepository
     public async Task<IEnumerable<Product>> FindAsync(CancellationToken cancellationToken) =>
         await _dbContext.Products.ToListAsync(cancellationToken);
 
-    public async Task<Product?> FindAsync(Guid id) => await _dbContext.Products.FirstOrDefaultAsync(x => x.Id == id);
+    public async Task<Product?> FindAsync(Guid id) => await _dbContext.Products.Include(c => c.Category).FirstOrDefaultAsync(x => x.Id == id);
 
     public async Task<Product?> FindAsync(Guid id, CancellationToken cancellationToken) =>
-        await _dbContext.Products.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        await _dbContext.Products.Include(c => c.Category).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 }

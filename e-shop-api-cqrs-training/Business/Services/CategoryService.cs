@@ -1,5 +1,4 @@
 using Business.Dtos.Category;
-using Business.Dtos.User;
 using Business.Interfaces;
 using Business.Validators;
 using Dal.Commands.Category;
@@ -24,10 +23,11 @@ public class CategoryService : ICategoryService
 
     public async Task<CategoryReadDto> Create(CategoryCreateDto dto)
     {
-        await ValidateCategoryCreateDto(dto);
+        await new CategoryCreateDtoValidator().ValidateAndThrowAsync(dto);
+        //check cet merde
         await CheckCategoryDoesNotExist(dto);
 
-        var command = new CreateCategoryCommand() { Name = dto.Name };
+        var command = new CreateCategoryCommand { Name = dto.Name };
 
         Category category = await _mediator.Send(command);
 
@@ -48,22 +48,27 @@ public class CategoryService : ICategoryService
         return categoryReadDtoList;
     }
 
-    // a changer pour un id, c'était pour tester.
+    public async Task<CategoryReadDto> GetOne(Guid guid)
+    {
+        var command = new GetCategoryByIdQuery { Id = guid };
+
+        Category? category = await _mediator.Send(command);
+        
+        return _appMapper.ToReadDto<Category, CategoryReadDto>(category);
+    }
+    
     public async Task<CategoryReadDto> GetOne(string name)
     {
-        var command = new GetCategoryByNameQuery() { Name = name };
+        var command = new GetCategoryByNameQuery { Name = name };
 
         Category? category = await _mediator.Send(command);
 
         return _appMapper.ToReadDto<Category, CategoryReadDto>(category);
     }
-
-    private async Task ValidateCategoryCreateDto(CategoryCreateDto dto) =>
-        await new CategoryCreateDtoValidator().ValidateAndThrowAsync(dto);
-
+    
     private async Task CheckCategoryDoesNotExist(CategoryCreateDto dto)
     {
-        Category? category = await _mediator.Send(new GetCategoryByNameQuery() { Name = dto.Name });
+        Category? category = await _mediator.Send(new GetCategoryByNameQuery { Name = dto.Name });
 
         if (category is not null) throw new ConflictException<Category>();
     }

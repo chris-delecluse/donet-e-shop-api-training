@@ -5,6 +5,7 @@ using Business.Commands.User;
 using Business.Interfaces;
 using Business.Mappings;
 using Business.Queries.Category;
+using Business.Queries.Product;
 using Business.Queries.User;
 using Business.Services;
 using Dal.Commands.Category;
@@ -15,6 +16,7 @@ using Dal.Database.Access;
 using Dal.Entities;
 using Dal.Interfaces;
 using Dal.Queries.Category;
+using Dal.Queries.Product;
 using Dal.Queries.User;
 using Dal.Repositories;
 using MediatR;
@@ -64,6 +66,8 @@ public static class AllServicesExtension
         service.AddScoped<IRequestHandler<GetAllCategoryQuery, IEnumerable<Category>>, GetAllCategoryHandler>();
         service.AddScoped<IRequestHandler<GetCategoryByIdQuery, Category?>, GetCategoryByIdHandler>();
         service.AddScoped<IRequestHandler<GetCategoryByNameQuery, Category?>, GetCategoryByNameHandler>();
+        service.AddScoped<IRequestHandler<GetAllProductQuery, IEnumerable<Product>>, GetAllProductHandler>();
+        service.AddScoped<IRequestHandler<GetProductByIdQuery, Product?>, GetProductByIdHandler>();
 
         // utilities
         service.AddScoped<IAppMapper, AppMapper>();

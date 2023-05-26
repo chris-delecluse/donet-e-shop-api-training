@@ -36,7 +36,7 @@ public class AuthService : IAuthService
 
     public async Task<SignInResponseDto> Authenticate(SignInRequestDto dto)
     {
-        await ValidateLoginDto(dto);
+        await new LoginDtoValidator().ValidateAndThrowAsync(dto);
 
         AppUser? user = await _mediator.Send(new GetUserByEmailQuery() { Email = dto.Email });
 
@@ -49,11 +49,4 @@ public class AuthService : IAuthService
 
         return _tokenService.GenerateAccessToken(user, role);
     }
-
-    /// <summary>
-    /// Validates the specified login details.
-    /// </summary>
-    /// <param name="dto">The login details to validate.</param>
-    private async Task ValidateLoginDto(SignInRequestDto dto) =>
-        await new LoginDtoValidator().ValidateAndThrowAsync(dto);
 }

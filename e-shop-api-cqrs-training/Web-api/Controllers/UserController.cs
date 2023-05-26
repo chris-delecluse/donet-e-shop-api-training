@@ -28,7 +28,10 @@ public class UserController : ControllerBase
     }
 
     [HttpGet, Authorize(Roles = "admin")]
-    public async Task<ActionResult<IEnumerable<UserReadDto>>> GetAll() => Ok(await _userService.GetAll());
+    public async Task<ActionResult<IEnumerable<UserReadDto>>> GetAll()
+    {
+        return Ok(await _userService.GetAll());
+    }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<UserReadDto?>> GetOneById(string id)
@@ -38,6 +41,6 @@ public class UserController : ControllerBase
             var result = await _userService.GetOneById(id);
             return Ok(result);
         }
-        catch (NotFoundException<AppUser> e) { return NotFound(new { e.Message}); }
+        catch (NotFoundException<AppUser> e) { return NotFound(new { e.Message }); }
     }
 }

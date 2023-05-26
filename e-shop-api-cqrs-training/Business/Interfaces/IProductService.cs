@@ -5,5 +5,8 @@ namespace Business.Interfaces;
 
 public interface IProductService
 {
-    Task<Product> Create(ProductCreateDto productCreateDto);
+    Task<ProductReadDto> Create(ProductCreateDto dto);
+    Task<IEnumerable<ProductReadDto>> GetAll();
+    Task<ProductReadDto?> GetOne(Guid guid);
+    Task<ProductDetailReadDto?> GetOneWithDetails(Guid guid);
 }

@@ -1,5 +1,6 @@
 using Dal.Interfaces;
 using Dal.Queries.Category;
+using Error;
 using MediatR;
 using E = Dal.Entities;
 

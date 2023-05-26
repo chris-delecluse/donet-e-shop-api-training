@@ -11,12 +11,17 @@ namespace Business.Commands.Product;
 public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, E.Product>
 {
     private readonly IProductRepository _productRepository;
+    private readonly ICategoryRepository _categoryRepository;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CreateProductCommandHandler"/> class.
     /// </summary>
     /// <param name="productRepository">The product repository</param>
-    public CreateProductCommandHandler(IProductRepository productRepository) { _productRepository = productRepository; }
+    public CreateProductCommandHandler(IProductRepository productRepository, ICategoryRepository categoryRepository)
+    {
+        _productRepository = productRepository;
+        _categoryRepository = categoryRepository;
+    }
     
     public async Task<E.Product> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
@@ -24,7 +29,9 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
         {
             Name = request.Name,
             Description = request.Description,
-            Price = request.Price
+            Price = request.Price,
+            CategoryId = request.CategoryId,
+            Category = await _categoryRepository.FindAsync(request.CategoryId, cancellationToken)
         };
 
         return await _productRepository.AddAsync(product, cancellationToken);

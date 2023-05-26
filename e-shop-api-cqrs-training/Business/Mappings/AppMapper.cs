@@ -19,9 +19,24 @@ public class AppMapper : IAppMapper
             var destinationProperty = destinationType.GetProperty(sourceProperty.Name);
 
             if (destinationProperty != null && destinationProperty.CanWrite)
-                destinationProperty.SetValue(destination, sourceProperty.GetValue(model));
+            {
+                var sourceValue = sourceProperty.GetValue(model);
+
+                if (IsComplexType(sourceProperty.PropertyType))
+                {
+                    var nestedDtoType = destinationProperty.PropertyType;
+                    var nestedDto = typeof(AppMapper)
+                        .GetMethod("ToReadDto")
+                        ?.MakeGenericMethod(sourceProperty.PropertyType, nestedDtoType)
+                        .Invoke(this, new[] { sourceValue });
+                    destinationProperty.SetValue(destination, nestedDto);
+                }
+                else { destinationProperty.SetValue(destination, sourceValue); }
+            }
         }
 
         return (TOut)destination;
     }
+
+    private bool IsComplexType(Type type) => type.IsClass && type != typeof(string);
 }

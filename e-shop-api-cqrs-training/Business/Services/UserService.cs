@@ -35,7 +35,7 @@ public class UserService : IUserService
 
     public async Task<UserReadDto> Create(UserCreateDto dto)
     {
-        await ValidateUserCreateDto(dto);
+        await new UserCreateDtoValidator().ValidateAndThrowAsync(dto);
         await CheckUserDoesNotExist(dto.Email);
 
         var userCommand = new CreateUserCommand()
@@ -71,13 +71,6 @@ public class UserService : IUserService
 
     public async Task<bool> ValidateUserPassword(AppUser user, string passwordEntry) =>
         await _userManager.CheckPasswordAsync(user, passwordEntry);
-
-    /// <summary>
-    /// Validates a user creation DTO using a validator and throws an exception if the data is not valid.
-    /// </summary>
-    /// <param name="dto">The user creation DTO to validate.</param>
-    private async Task ValidateUserCreateDto(UserCreateDto dto) =>
-        await new UserCreateDtoValidator().ValidateAndThrowAsync(dto);
 
     /// <summary>
     /// Checks if a user with the given email address exists in the database and throws a conflict exception if it does.
