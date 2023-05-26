@@ -55,8 +55,8 @@ public static class AllServicesExtension
         // cqrs commands
         service.AddScoped<IRequestHandler<CreateUserCommand, CreateUserCommandResult>, CreateUserCommandHandler>();
         service.AddScoped<IRequestHandler<CreateRoleCommand, IdentityResult>, CreateRoleCommandHandler>();
-        service.AddScoped<IRequestHandler<CreateProductCommand, Product>, CreateProductCommandHandler>();
         service.AddScoped<IRequestHandler<CreateCategoryCommand, Category>, CreateCategoryCommandHandler>();
+        service.AddScoped<IRequestHandler<CreateProductCommand, Product>, CreateProductCommandHandler>();
 
         // cqrs queries
         service.AddScoped<IRequestHandler<GetAllUsersQuery, IEnumerable<AppUser>>, GetAllUsersHandler>();
@@ -68,6 +68,7 @@ public static class AllServicesExtension
         service.AddScoped<IRequestHandler<GetCategoryByNameQuery, Category?>, GetCategoryByNameHandler>();
         service.AddScoped<IRequestHandler<GetAllProductQuery, IEnumerable<Product>>, GetAllProductHandler>();
         service.AddScoped<IRequestHandler<GetProductByIdQuery, Product?>, GetProductByIdHandler>();
+        service.AddScoped<IRequestHandler<GetProductIncludeCategoryById, Product?>, GetProductIncludeCategoryByIdHandler>();
 
         // utilities
         service.AddScoped<IAppMapper, AppMapper>();

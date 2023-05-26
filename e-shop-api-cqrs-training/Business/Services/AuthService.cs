@@ -32,7 +32,10 @@ public class AuthService : IAuthService
         _tokenService = tokenService;
     }
 
-    public async Task<UserReadDto> Register(UserCreateDto dto) => await _userService.Create(dto);
+    public async Task<UserReadDto> Register(UserCreateDto dto)
+    {
+        return await _userService.Create(dto);
+    }
 
     public async Task<SignInResponseDto> Authenticate(SignInRequestDto dto)
     {

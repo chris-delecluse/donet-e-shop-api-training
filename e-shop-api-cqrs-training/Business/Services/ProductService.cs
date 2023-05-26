@@ -1,4 +1,3 @@
-using System.Collections;
 using Business.Dtos.Product;
 using Business.Interfaces;
 using Business.Validators;
@@ -24,7 +23,7 @@ public class ProductService : IProductService
     public async Task<ProductReadDto> Create(ProductCreateDto productCreateDto)
     {
         await new ProductCreateDtoValidator().ValidateAndThrowAsync(productCreateDto);
-        
+
         var command = new CreateProductCommand()
         {
             Name = productCreateDto.Name,
@@ -41,7 +40,6 @@ public class ProductService : IProductService
     public async Task<IEnumerable<ProductReadDto>> GetAll()
     {
         List<ProductReadDto> list = new List<ProductReadDto>();
-
         IEnumerable<Product> command = await _mediator.Send(new GetAllProductQuery());
 
         foreach (Product product in command)
@@ -55,14 +53,12 @@ public class ProductService : IProductService
     public async Task<ProductReadDto?> GetOne(Guid guid)
     {
         Product? product = await _mediator.Send(new GetProductByIdQuery { Id = guid });
-
         return _appMapper.ToReadDto<Product, ProductReadDto>(product);
     }
 
-    public async Task<ProductDetailReadDto?> GetOneWithDetails(Guid guid)
+    public async Task<ProductDetailReadDto?> GetOneIncludeCategory(Guid guid)
     {
-        Product? product = await _mediator.Send(new GetProductByIdQuery { Id = guid });
-
+        Product? product = await _mediator.Send(new GetProductIncludeCategoryById { Id = guid });
         return _appMapper.ToReadDto<Product, ProductDetailReadDto>(product);
     }
-} 
+}

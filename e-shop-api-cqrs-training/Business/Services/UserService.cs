@@ -69,8 +69,10 @@ public class UserService : IUserService
         return _appMapper.ToReadDto<AppUser, UserReadDto>(user);
     }
 
-    public async Task<bool> ValidateUserPassword(AppUser user, string passwordEntry) =>
-        await _userManager.CheckPasswordAsync(user, passwordEntry);
+    public async Task<bool> ValidateUserPassword(AppUser user, string passwordEntry)
+    {
+        return await _userManager.CheckPasswordAsync(user, passwordEntry);
+    }
 
     /// <summary>
     /// Checks if a user with the given email address exists in the database and throws a conflict exception if it does.

@@ -6,11 +6,21 @@ using E = Dal.Entities;
 
 namespace Business.Queries.Product;
 
+/// <summary>
+/// Handler for retrieving a product by id.
+/// </summary>
 public class GetProductByIdHandler : IRequestHandler<GetProductByIdQuery, E.Product?>
 {
     private readonly IProductRepository _productRepository;
 
-    public GetProductByIdHandler(IProductRepository productRepository) { _productRepository = productRepository; }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GetProductByIdHandler"/> class.
+    /// </summary>
+    /// <param name="productRepository">The product repository.</param>
+    public GetProductByIdHandler(IProductRepository productRepository)
+    {
+        _productRepository = productRepository;
+    }
 
     public async Task<E.Product?> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
     {

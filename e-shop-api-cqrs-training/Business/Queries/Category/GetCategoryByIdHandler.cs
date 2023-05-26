@@ -6,11 +6,21 @@ using E = Dal.Entities;
 
 namespace Business.Queries.Category;
 
+/// <summary>
+/// Handler for retrieving a category by id.
+/// </summary>
 public class GetCategoryByIdHandler : IRequestHandler<GetCategoryByIdQuery, E.Category?>
 {
     private readonly ICategoryRepository _categoryRepository;
 
-    public GetCategoryByIdHandler(ICategoryRepository categoryRepository) { _categoryRepository = categoryRepository; }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GetCategoryByIdHandler"/> class.
+    /// </summary>
+    /// <param name="categoryRepository">The category repository.</param>
+    public GetCategoryByIdHandler(ICategoryRepository categoryRepository)
+    {
+        _categoryRepository = categoryRepository;
+    }
 
     public async Task<E.Category?> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
     {

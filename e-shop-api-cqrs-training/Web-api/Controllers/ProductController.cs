@@ -25,7 +25,10 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductReadDto>>> GetAll() { return Ok(await _productService.GetAll()); }
+    public async Task<ActionResult<IEnumerable<ProductReadDto>>> GetAll()
+    {
+        return Ok(await _productService.GetAll());
+    }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductReadDto>> GetOne(Guid id)
@@ -38,12 +41,12 @@ public class ProductController : ControllerBase
         catch (NotFoundException<Product> e) { return NotFound(new { e.Message }); }
     }
 
-    [HttpGet("{id}/detail")]
+    [HttpGet("{id}/category")]
     public async Task<ActionResult<ProductDetailReadDto>> GetOneWithDetails(Guid id)
     {
         try
         {
-            var result = await _productService.GetOneWithDetails(id);
+            var result = await _productService.GetOneIncludeCategory(id);
             return Ok(result);
         }
         catch (NotFoundException<Product> e)

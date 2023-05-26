@@ -49,4 +49,19 @@ public interface IProductRepository
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The found product, or null if not found.</returns>
     Task<Product?> FindAsync(Guid id, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Retrieves a product and category by product ID from the repository.
+    /// </summary>
+    /// <param name="id">The ID of the product.</param>
+    /// <returns>The found product with category, or null if not found</returns>
+    Task<Product?> FindAndIncludeCategoryAsync(Guid id);
+    
+    /// <summary>
+    /// Retrieves a product and category by product ID from the repository with a cancellation token.
+    /// </summary>
+    /// <param name="id">The ID of the product.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The found product with category, or null if not found.</returns>
+    Task<Product?> FindAndIncludeCategoryAsync(Guid id, CancellationToken cancellationToken);
 }

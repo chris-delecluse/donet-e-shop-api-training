@@ -26,18 +26,33 @@ public class CategoryRepository : ICategoryRepository
         return result.Entity;
     }
 
-    public async Task<IEnumerable<Category>> FindAsync() => await _dbContext.Categories.ToListAsync();
+    public async Task<IEnumerable<Category>> FindAsync()
+    {
+        return await _dbContext.Categories.ToListAsync();
+    }
 
-    public async Task<IEnumerable<Category>> FindAsync(CancellationToken cancellationToken) =>
-        await _dbContext.Categories.ToListAsync(cancellationToken);
+    public async Task<IEnumerable<Category>> FindAsync(CancellationToken cancellationToken)
+    {
+        return await _dbContext.Categories.ToListAsync(cancellationToken);
+    }
 
-    public async Task<Category?> FindAsync(Guid id) => await _dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
+    public async Task<Category?> FindAsync(Guid id)
+    {
+        return await _dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
+    }
 
-    public async Task<Category?> FindAsync(Guid id, CancellationToken cancellationToken) =>
-        await _dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    public async Task<Category?> FindAsync(Guid id, CancellationToken cancellationToken)
+    {
+        return await _dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    }
 
-    public async Task<Category?> FindAsync(string name) => await _dbContext.Categories.FirstOrDefaultAsync(x => x.Name == name);
+    public async Task<Category?> FindAsync(string name)
+    {
+        return await _dbContext.Categories.FirstOrDefaultAsync(x => x.Name == name);
+    }
 
-    public async Task<Category?> FindAsync(string name, CancellationToken cancellationToken) =>
-        await _dbContext.Categories.FirstOrDefaultAsync(x => x.Name == name, cancellationToken);
+    public async Task<Category?> FindAsync(string name, CancellationToken cancellationToken)
+    {
+        return await _dbContext.Categories.FirstOrDefaultAsync(x => x.Name == name, cancellationToken);
+    }
 }
