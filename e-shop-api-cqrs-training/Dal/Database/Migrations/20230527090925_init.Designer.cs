@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dal.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230526135524_init")]
+    [Migration("20230527090925_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -104,12 +104,7 @@ namespace Dal.Database.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid?>("ParentCategoryId")
-                        .HasColumnType("char(36)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Categories");
                 });
@@ -267,15 +262,6 @@ namespace Dal.Database.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("Dal.Entities.Category", b =>
-                {
-                    b.HasOne("Dal.Entities.Category", "ParentCategory")
-                        .WithMany()
-                        .HasForeignKey("ParentCategoryId");
-
-                    b.Navigation("ParentCategory");
                 });
 
             modelBuilder.Entity("Dal.Entities.Product", b =>
