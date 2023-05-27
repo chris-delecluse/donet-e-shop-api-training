@@ -42,7 +42,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("{id}/category")]
-    public async Task<ActionResult<ProductDetailReadDto>> GetOneWithDetails(Guid id)
+    public async Task<ActionResult<ProductWithCategoryReadDto>> GetOneWithCategory(Guid id)
     {
         try
         {

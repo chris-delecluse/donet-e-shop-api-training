@@ -44,6 +44,7 @@ public static class AllServicesExtension
         // repositories
         service.AddScoped<IProductRepository, ProductRepository>();
         service.AddScoped<ICategoryRepository, CategoryRepository>();
+        service.AddScoped<IProductStockRepository, ProductStockRepository>();
         
         // services
         service.AddScoped<IUserService, UserService>();

@@ -2,9 +2,8 @@ using Business.Dtos.Category;
 
 namespace Business.Dtos.Product;
 
-public class ProductDetailReadDto: BaseProductDto
+public class ProductWithCategoryReadDto: BaseProductDto
 {
     public Guid Id { get; init; }
     public CategoryReadDto Category { get; init; }
-    public ProductWithStockReadDto Stock { get; init; }
 }

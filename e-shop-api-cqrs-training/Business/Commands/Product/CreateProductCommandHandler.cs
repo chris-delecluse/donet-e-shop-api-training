@@ -22,7 +22,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
         _productRepository = productRepository;
         _categoryRepository = categoryRepository;
     }
-    
+
     public async Task<E.Product> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
         E.Product product = new E.Product()
@@ -31,6 +31,7 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
             Description = request.Description,
             Price = request.Price,
             CategoryId = request.CategoryId,
+            ProductStock = new E.ProductStock { Quantity = request.Quantity },
             Category = await _categoryRepository.FindAsync(request.CategoryId, cancellationToken)
         };
 

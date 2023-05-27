@@ -15,6 +15,7 @@ public class AppDbContext : IdentityDbContext<AppUser, IdentityRole, string>
 
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<ProductStock> ProductStocks { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AppDbContext"/> class with the specified configuration.

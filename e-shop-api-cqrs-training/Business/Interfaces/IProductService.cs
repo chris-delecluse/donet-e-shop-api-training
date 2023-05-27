@@ -28,10 +28,24 @@ namespace Business.Interfaces
         Task<ProductReadDto?> GetOne(Guid guid);
 
         /// <summary>
+        /// Retrieves a specific product using the unique identifier guid and includes the details of all associated entities.
+        /// </summary>
+        /// <param name="guid">The unique identifier of the product.</param>
+        /// <returns>The corresponding <see cref="ProductDetailReadDto"/> object for the found product, including all associated details, or null if not found.</returns>
+        Task<ProductDetailReadDto?> GetOneWithDetails(Guid guid);
+
+        /// <summary>
         /// Retrieves a specific product using the unique identifier guid and includes the details of the associated category.
         /// </summary>
         /// <param name="guid">The unique identifier of the product.</param>
-        /// <returns>The corresponding ProductDetailReadDto object for the found product, including the category details, or null if not found.</returns>
-        Task<ProductDetailReadDto?> GetOneIncludeCategory(Guid guid);
+        /// <returns>The corresponding ProductWithCategoryReadDto object for the found product, including the category details, or null if not found.</returns>
+        Task<ProductWithCategoryReadDto?> GetOneIncludeCategory(Guid guid);
+
+        /// <summary>
+        /// Retrieves a specific product using the unique identifier guid and include the details of the associated stock.
+        /// </summary>
+        /// <param name="guid">The unique identifier of the product.</param>
+        /// <returns>The corresponding ProductWithStockReadDto object for the found product, including the stock details, or null if not found.</returns>
+        Task<ProductWithStockReadDto?> GetOneIncludeStock(Guid guid);
     }
 }

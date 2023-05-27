@@ -29,7 +29,8 @@ public class ProductService : IProductService
             Name = productCreateDto.Name,
             Description = productCreateDto.Description,
             Price = productCreateDto.Price,
-            CategoryId = productCreateDto.CategoryId
+            CategoryId = productCreateDto.CategoryId,
+            Quantity = productCreateDto.Quantity
         };
 
         Product? product = await _mediator.Send(command);
@@ -56,9 +57,19 @@ public class ProductService : IProductService
         return _appMapper.ToReadDto<Product, ProductReadDto>(product);
     }
 
-    public async Task<ProductDetailReadDto?> GetOneIncludeCategory(Guid guid)
+    public Task<ProductDetailReadDto?> GetOneWithDetails(Guid guid)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<ProductWithCategoryReadDto?> GetOneIncludeCategory(Guid guid)
     {
         Product? product = await _mediator.Send(new GetProductIncludeCategoryById { Id = guid });
-        return _appMapper.ToReadDto<Product, ProductDetailReadDto>(product);
+        return _appMapper.ToReadDto<Product, ProductWithCategoryReadDto>(product);
+    }
+
+    public Task<ProductWithStockReadDto?> GetOneIncludeStock(Guid guid)
+    {
+        throw new NotImplementedException();
     }
 }

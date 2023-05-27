@@ -7,4 +7,6 @@ public class Product : BaseEntity
     public decimal Price { get; set; }
     public Guid CategoryId { get; set; }
     public Category? Category { get; set; }
+    public Guid ProductStockId { get; set; }
+    public ProductStock? ProductStock { get; set; }
 }
