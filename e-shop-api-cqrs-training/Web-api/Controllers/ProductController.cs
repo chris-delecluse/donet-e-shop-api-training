@@ -25,10 +25,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductReadDto>>> GetAll()
-    {
-        return Ok(await _productService.GetAll());
-    }
+    public async Task<ActionResult<IEnumerable<ProductReadDto>>> GetAll() { return Ok(await _productService.GetAll()); }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductReadDto>> GetOne(Guid id)
@@ -72,5 +69,17 @@ public class ProductController : ControllerBase
             return Ok(result);
         }
         catch (NotFoundException<Product> e) { return NotFound(new { e.Message }); }
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<ProductWithStockReadDto>> SoftDeleteOne(Guid id)
+    {
+        try
+        {
+            string result = await _productService.SoftDeleteProduct(id);
+            return Ok(new { result });
+        }
+        catch (NotFoundException<Product> e) { return NotFound(new { e.Message }); }
+        catch (BadRequestException<Product> e) { return BadRequest(new { e.Message }); }
     }
 }

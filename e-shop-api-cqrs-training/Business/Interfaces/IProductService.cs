@@ -47,5 +47,7 @@ namespace Business.Interfaces
         /// <param name="guid">The unique identifier of the product.</param>
         /// <returns>The corresponding ProductWithStockReadDto object for the found product, including the stock details, or null if not found.</returns>
         Task<ProductWithStockReadDto?> GetOneIncludeStock(Guid guid);
+
+        Task<string> SoftDeleteProduct(Guid guid);
     }
 }

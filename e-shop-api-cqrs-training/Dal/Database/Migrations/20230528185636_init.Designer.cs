@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Dal.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230527151812_init")]
+    [Migration("20230528185636_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -121,6 +121,9 @@ namespace Dal.Database.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
                         .IsRequired()

@@ -68,4 +68,9 @@ public class ProductService : IProductService
         Product? product = await _mediator.Send(new GetProductIncludeStockByIdQuery { Id = guid });
         return _mapper.Map<ProductWithStockReadDto>(product);
     }
+
+    public async Task<string> SoftDeleteProduct(Guid guid)
+    {
+        return await _mediator.Send(new SoftDeleteProductCommand { Id = guid });
+    }
 }

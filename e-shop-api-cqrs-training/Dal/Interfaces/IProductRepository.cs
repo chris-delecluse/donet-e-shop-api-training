@@ -7,6 +7,8 @@ namespace Dal.Interfaces;
 /// </summary>
 public interface IProductRepository
 {
+    #region Add a product.
+
     /// <summary>
     /// Adds a new product to the repository.
     /// </summary>
@@ -21,6 +23,10 @@ public interface IProductRepository
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The added product.</returns>
     Task<Product> AddAsync(Product product, CancellationToken cancellationToken);
+
+    #endregion
+
+    # region Find a product (basic and include some category).
 
     /// <summary>
     /// Retrieves all products from the repository.
@@ -94,4 +100,14 @@ public interface IProductRepository
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The found product with stock, or null if not found.</returns>
     Task<Product?> FindAndIncludeStockAsync(Guid id, CancellationToken cancellationToken);
+
+    #endregion
+
+    # region Update a product.
+
+    Task<bool> UpdateProductAsync(Product product);
+    
+    Task<bool> UpdateProductAsync(Product product, CancellationToken cancellationToken);
+
+    #endregion
 }

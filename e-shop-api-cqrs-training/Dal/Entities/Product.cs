@@ -9,4 +9,5 @@ public class Product : BaseEntity
     public Category? Category { get; set; }
     public Guid ProductStockId { get; set; }
     public ProductStock? ProductStock { get; set; }
+    public bool IsDeleted { get; set; } = false;
 }

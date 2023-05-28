@@ -204,7 +204,8 @@ namespace Dal.Database.Migrations
                     Description = table.Column<string>(type: "longtext", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     CategoryId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    ProductStockId = table.Column<Guid>(type: "char(36)", nullable: false)
+                    ProductStockId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {

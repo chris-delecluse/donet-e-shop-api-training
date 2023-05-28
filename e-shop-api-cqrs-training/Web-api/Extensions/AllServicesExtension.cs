@@ -83,6 +83,7 @@ public static class AllServicesExtension
         service.AddScoped<IRequestHandler<GetProductDetailByIdQuery, Product?>, GetProductDetailByIdHandler>();
         service.AddScoped<IRequestHandler<GetProductIncludeCategoryByIdQuery, Product?>, GetProductIncludeCategoryByIdHandler>();
         service.AddScoped<IRequestHandler<GetProductIncludeStockByIdQuery, Product?>, GetProductIncludeStockByIdHandler>();
+        service.AddScoped<IRequestHandler<SoftDeleteProductCommand, string>, SoftDeleteProductCommandHandler>();
 
         return service;
     }

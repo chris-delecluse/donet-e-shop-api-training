@@ -26,7 +26,10 @@ public class ProductRepository : IProductRepository
         return result.Entity;
     }
 
-    public async Task<IEnumerable<Product>> FindAsync() { return await _dbContext.Products.ToListAsync(); }
+    public async Task<IEnumerable<Product>> FindAsync()
+    {
+        return await _dbContext.Products.ToListAsync();
+    }
 
     public async Task<IEnumerable<Product>> FindAsync(CancellationToken cancellationToken)
     {
@@ -79,5 +82,19 @@ public class ProductRepository : IProductRepository
     {
         return await _dbContext.Products.Include(s => s.ProductStock)
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    }
+
+    public async Task<bool> UpdateProductAsync(Product product)
+    {
+        _dbContext.Products.Update(product);
+        int result = await _dbContext.SaveChangesAsync();
+        return result > 0;
+    }
+
+    public async Task<bool> UpdateProductAsync(Product product, CancellationToken cancellationToken)
+    {
+        _dbContext.Products.Update(product);
+        int result = await _dbContext.SaveChangesAsync(cancellationToken);
+        return result > 0;
     }
 }
