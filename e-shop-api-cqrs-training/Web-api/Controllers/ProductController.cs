@@ -41,6 +41,17 @@ public class ProductController : ControllerBase
         catch (NotFoundException<Product> e) { return NotFound(new { e.Message }); }
     }
 
+    [HttpGet("{id}/details")]
+    public async Task<ActionResult<ProductDetailReadDto>> GetOneWithFullDetails(Guid id)
+    {
+        try
+        {
+            var result = await _productService.GetOneWithDetails(id);
+            return Ok(result);
+        }
+        catch (NotFoundException<Product> e) { return NotFound(new { e.Message }); }
+    }
+
     [HttpGet("{id}/category")]
     public async Task<ActionResult<ProductWithCategoryReadDto>> GetOneWithCategory(Guid id)
     {
@@ -49,9 +60,17 @@ public class ProductController : ControllerBase
             var result = await _productService.GetOneIncludeCategory(id);
             return Ok(result);
         }
-        catch (NotFoundException<Product> e)
+        catch (NotFoundException<Product> e) { return NotFound(new { e.Message }); }
+    }
+
+    [HttpGet("{id}/stock")]
+    public async Task<ActionResult<ProductWithStockReadDto>> GetOneWithStock(Guid id)
+    {
+        try
         {
-            return NotFound(new { e.Message });
+            var result = await _productService.GetOneIncludeStock(id);
+            return Ok(result);
         }
+        catch (NotFoundException<Product> e) { return NotFound(new { e.Message }); }
     }
 }

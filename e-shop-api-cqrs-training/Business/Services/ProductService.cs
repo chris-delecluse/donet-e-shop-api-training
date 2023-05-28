@@ -1,3 +1,4 @@
+using AutoMapper;
 using Business.Dtos.Product;
 using Business.Interfaces;
 using Business.Validators;
@@ -13,11 +14,13 @@ public class ProductService : IProductService
 {
     private readonly IMediator _mediator;
     private readonly IAppMapper _appMapper;
+    private readonly IMapper _mapper;
 
-    public ProductService(IMediator mediator, IAppMapper appMapper)
+    public ProductService(IMediator mediator, IAppMapper appMapper, IMapper mapper)
     {
         _mediator = mediator;
         _appMapper = appMapper;
+        _mapper = mapper;
     }
 
     public async Task<ProductReadDto> Create(ProductCreateDto productCreateDto)
@@ -43,10 +46,7 @@ public class ProductService : IProductService
         List<ProductReadDto> list = new List<ProductReadDto>();
         IEnumerable<Product> command = await _mediator.Send(new GetAllProductQuery());
 
-        foreach (Product product in command)
-        {
-            list.Add(_appMapper.ToReadDto<Product, ProductReadDto>(product));
-        }
+        foreach (Product product in command) { list.Add(_appMapper.ToReadDto<Product, ProductReadDto>(product)); }
 
         return list;
     }
@@ -57,19 +57,25 @@ public class ProductService : IProductService
         return _appMapper.ToReadDto<Product, ProductReadDto>(product);
     }
 
-    public Task<ProductDetailReadDto?> GetOneWithDetails(Guid guid)
+    public async Task<ProductDetailReadDto?> GetOneWithDetails(Guid guid)
     {
-        throw new NotImplementedException();
+        // ici
+        Product? product = await _mediator.Send(new GetProductDetailByIdQuery { Id = guid });
+        //return _appMapper.ToReadDto<Product, ProductDetailReadDto>(product);
+        return _mapper.Map<ProductDetailReadDto>(product);
     }
 
     public async Task<ProductWithCategoryReadDto?> GetOneIncludeCategory(Guid guid)
     {
-        Product? product = await _mediator.Send(new GetProductIncludeCategoryById { Id = guid });
+        Product? product = await _mediator.Send(new GetProductIncludeCategoryByIdQuery { Id = guid });
         return _appMapper.ToReadDto<Product, ProductWithCategoryReadDto>(product);
     }
 
-    public Task<ProductWithStockReadDto?> GetOneIncludeStock(Guid guid)
+    public async Task<ProductWithStockReadDto?> GetOneIncludeStock(Guid guid)
     {
-        throw new NotImplementedException();
+        Product? product = await _mediator.Send(new GetProductIncludeStockByIdQuery { Id = guid });
+        Console.WriteLine(product.Name);
+        Console.WriteLine(product.ProductStock.Quantity);
+        return _appMapper.ToReadDto<Product, ProductWithStockReadDto>(product);
     }
 }

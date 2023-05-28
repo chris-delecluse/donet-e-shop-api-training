@@ -4,6 +4,7 @@ using Business.Commands.Role;
 using Business.Commands.User;
 using Business.Interfaces;
 using Business.Mappings;
+using Business.Profiles;
 using Business.Queries.Category;
 using Business.Queries.Product;
 using Business.Queries.User;
@@ -38,6 +39,12 @@ public static class AllServicesExtension
 
         service.RegisterIdentityService();
         service.RegisterAuthenticationService(configuration);
+        
+        service.AddAutoMapper(typeof(Program),
+            typeof(ProductProfile),
+            typeof(CategoryProfile),
+            typeof(StockProfile)
+        );
 
         service.AddMediatR(opt => opt.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
@@ -45,35 +52,37 @@ public static class AllServicesExtension
         service.AddScoped<IProductRepository, ProductRepository>();
         service.AddScoped<ICategoryRepository, CategoryRepository>();
         service.AddScoped<IProductStockRepository, ProductStockRepository>();
-        
+
         // services
         service.AddScoped<IUserService, UserService>();
         service.AddScoped<IAuthService, AuthService>();
         service.AddScoped<ITokenService, TokenService>();
         service.AddScoped<IProductService, ProductService>();
         service.AddScoped<ICategoryService, CategoryService>();
-        
+
         // cqrs user
         service.AddScoped<IRequestHandler<CreateUserCommand, CreateUserCommandResult>, CreateUserCommandHandler>();
         service.AddScoped<IRequestHandler<GetAllUsersQuery, IEnumerable<AppUser>>, GetAllUsersHandler>();
         service.AddScoped<IRequestHandler<GetUserByIdQuery, AppUser?>, GetUserByIdHandler>();
         service.AddScoped<IRequestHandler<GetUserByEmailQuery, AppUser?>, GetUserByEmailHandler>();
-        
+
         // cqrs role
         service.AddScoped<IRequestHandler<CreateRoleCommand, IdentityResult>, CreateRoleCommandHandler>();
         service.AddScoped<IRequestHandler<GetUserRoleQuery, IEnumerable<string>>, GetUserRoleHandler>();
-        
+
         // cqrs category
         service.AddScoped<IRequestHandler<CreateCategoryCommand, Category>, CreateCategoryCommandHandler>();
         service.AddScoped<IRequestHandler<GetAllCategoryQuery, IEnumerable<Category>>, GetAllCategoryHandler>();
         service.AddScoped<IRequestHandler<GetCategoryByIdQuery, Category?>, GetCategoryByIdHandler>();
         service.AddScoped<IRequestHandler<GetCategoryByNameQuery, Category?>, GetCategoryByNameHandler>();
-        
+
         // cqrs product
         service.AddScoped<IRequestHandler<CreateProductCommand, Product>, CreateProductCommandHandler>();
         service.AddScoped<IRequestHandler<GetAllProductQuery, IEnumerable<Product>>, GetAllProductHandler>();
         service.AddScoped<IRequestHandler<GetProductByIdQuery, Product?>, GetProductByIdHandler>();
-        service.AddScoped<IRequestHandler<GetProductIncludeCategoryById, Product?>, GetProductIncludeCategoryByIdHandler>();
+        service.AddScoped<IRequestHandler<GetProductDetailByIdQuery, Product?>, GetProductDetailByIdHandler>();
+        service.AddScoped<IRequestHandler<GetProductIncludeCategoryByIdQuery, Product?>, GetProductIncludeCategoryByIdHandler>();
+        service.AddScoped<IRequestHandler<GetProductIncludeStockByIdQuery, Product?>, GetProductIncludeStockByIdHandler>();
 
         // utilities
         service.AddScoped<IAppMapper, AppMapper>();

@@ -51,12 +51,27 @@ public interface IProductRepository
     Task<Product?> FindAsync(Guid id, CancellationToken cancellationToken);
 
     /// <summary>
+    /// Retrieves a product by its ID from the repository.
+    /// </summary>
+    /// <param name="id">The ID of the product.</param>
+    /// <returns>The found product with all details, or null if not found.</returns>
+    Task<Product?> FindAndIncludeFulLDetailAsync(Guid id);
+
+    /// <summary>
+    /// Retrieves a product by its ID from the repository with a cancellation token.
+    /// </summary>
+    /// <param name="id">The ID of the product.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The found product with all details, or null if not found.</returns>
+    Task<Product?> FindAndIncludeFulLDetailAsync(Guid id, CancellationToken cancellationToken);
+
+    /// <summary>
     /// Retrieves a product and category by product ID from the repository.
     /// </summary>
     /// <param name="id">The ID of the product.</param>
     /// <returns>The found product with category, or null if not found</returns>
     Task<Product?> FindAndIncludeCategoryAsync(Guid id);
-    
+
     /// <summary>
     /// Retrieves a product and category by product ID from the repository with a cancellation token.
     /// </summary>
@@ -64,4 +79,19 @@ public interface IProductRepository
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The found product with category, or null if not found.</returns>
     Task<Product?> FindAndIncludeCategoryAsync(Guid id, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Retrieves a product and stock by product ID from the repository.
+    /// </summary>
+    /// <param name="id">The ID of the product.</param>
+    /// <returns>The found product with stock, or null if not found.</returns>
+    Task<Product?> FindAndIncludeStockAsync(Guid id);
+
+    /// <summary>
+    /// Retrieves a product and stock by product ID from the repository with a cancellation token.
+    /// </summary>
+    /// <param name="id">The ID of the product.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The found product with stock, or null if not found.</returns>
+    Task<Product?> FindAndIncludeStockAsync(Guid id, CancellationToken cancellationToken);
 }

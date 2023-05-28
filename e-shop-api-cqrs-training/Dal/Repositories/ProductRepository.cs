@@ -26,10 +26,7 @@ public class ProductRepository : IProductRepository
         return result.Entity;
     }
 
-    public async Task<IEnumerable<Product>> FindAsync()
-    {
-        return await _dbContext.Products.ToListAsync();
-    }
+    public async Task<IEnumerable<Product>> FindAsync() { return await _dbContext.Products.ToListAsync(); }
 
     public async Task<IEnumerable<Product>> FindAsync(CancellationToken cancellationToken)
     {
@@ -46,6 +43,20 @@ public class ProductRepository : IProductRepository
         return await _dbContext.Products.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
+    public async Task<Product?> FindAndIncludeFulLDetailAsync(Guid id)
+    {
+        return await _dbContext.Products.Include(c => c.Category)
+            .Include(s => s.ProductStock)
+            .FirstOrDefaultAsync(x => x.Id == id);
+    }
+
+    public async Task<Product?> FindAndIncludeFulLDetailAsync(Guid id, CancellationToken cancellationToken)
+    {
+        return await _dbContext.Products.Include(c => c.Category)
+            .Include(s => s.ProductStock)
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    }
+
     public async Task<Product?> FindAndIncludeCategoryAsync(Guid id)
     {
         return await _dbContext.Products.Include(c => c.Category)
@@ -55,6 +66,18 @@ public class ProductRepository : IProductRepository
     public async Task<Product?> FindAndIncludeCategoryAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _dbContext.Products.Include(c => c.Category)
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    }
+
+    public async Task<Product?> FindAndIncludeStockAsync(Guid id)
+    {
+        return await _dbContext.Products.Include(s => s.ProductStock)
+            .FirstOrDefaultAsync(x => x.Id == id);
+    }
+
+    public async Task<Product?> FindAndIncludeStockAsync(Guid id, CancellationToken cancellationToken)
+    {
+        return await _dbContext.Products.Include(s => s.ProductStock)
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 }
