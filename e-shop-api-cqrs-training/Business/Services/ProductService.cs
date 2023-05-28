@@ -13,13 +13,11 @@ namespace Business.Services;
 public class ProductService : IProductService
 {
     private readonly IMediator _mediator;
-    private readonly IAppMapper _appMapper;
     private readonly IMapper _mapper;
 
-    public ProductService(IMediator mediator, IAppMapper appMapper, IMapper mapper)
+    public ProductService(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
-        _appMapper = appMapper;
         _mapper = mapper;
     }
 
@@ -38,44 +36,36 @@ public class ProductService : IProductService
 
         Product? product = await _mediator.Send(command);
 
-        return _appMapper.ToReadDto<Product, ProductReadDto>(product);
+        return _mapper.Map<ProductReadDto>(product);
     }
 
     public async Task<IEnumerable<ProductReadDto>> GetAll()
     {
-        List<ProductReadDto> list = new List<ProductReadDto>();
         IEnumerable<Product> command = await _mediator.Send(new GetAllProductQuery());
-
-        foreach (Product product in command) { list.Add(_appMapper.ToReadDto<Product, ProductReadDto>(product)); }
-
-        return list;
+        return _mapper.Map<IEnumerable<ProductReadDto>>(command);
     }
 
     public async Task<ProductReadDto?> GetOne(Guid guid)
     {
         Product? product = await _mediator.Send(new GetProductByIdQuery { Id = guid });
-        return _appMapper.ToReadDto<Product, ProductReadDto>(product);
+        return _mapper.Map<ProductReadDto>(product);
     }
 
     public async Task<ProductDetailReadDto?> GetOneWithDetails(Guid guid)
     {
-        // ici
         Product? product = await _mediator.Send(new GetProductDetailByIdQuery { Id = guid });
-        //return _appMapper.ToReadDto<Product, ProductDetailReadDto>(product);
         return _mapper.Map<ProductDetailReadDto>(product);
     }
 
     public async Task<ProductWithCategoryReadDto?> GetOneIncludeCategory(Guid guid)
     {
         Product? product = await _mediator.Send(new GetProductIncludeCategoryByIdQuery { Id = guid });
-        return _appMapper.ToReadDto<Product, ProductWithCategoryReadDto>(product);
+        return _mapper.Map<ProductWithCategoryReadDto>(product);
     }
 
     public async Task<ProductWithStockReadDto?> GetOneIncludeStock(Guid guid)
     {
         Product? product = await _mediator.Send(new GetProductIncludeStockByIdQuery { Id = guid });
-        Console.WriteLine(product.Name);
-        Console.WriteLine(product.ProductStock.Quantity);
-        return _appMapper.ToReadDto<Product, ProductWithStockReadDto>(product);
+        return _mapper.Map<ProductWithStockReadDto>(product);
     }
 }

@@ -1,3 +1,4 @@
+using AutoMapper;
 using Business.Dtos.Category;
 using Business.Interfaces;
 using Business.Validators;
@@ -13,12 +14,12 @@ namespace Business.Services;
 public class CategoryService : ICategoryService
 {
     private readonly IMediator _mediator;
-    private readonly IAppMapper _appMapper;
+    private readonly IMapper _mapper;
 
-    public CategoryService(IMediator mediator, IAppMapper appMapper)
+    public CategoryService(IMediator mediator, IMapper mapper)
     {
         _mediator = mediator;
-        _appMapper = appMapper;
+        _mapper = mapper;
     }
 
     public async Task<CategoryReadDto> Create(CategoryCreateDto dto)
@@ -27,45 +28,28 @@ public class CategoryService : ICategoryService
         //check cet merde
         await CheckCategoryDoesNotExist(dto);
 
-        var command = new CreateCategoryCommand { Name = dto.Name };
-
-        Category category = await _mediator.Send(command);
-
-        return _appMapper.ToReadDto<Category, CategoryReadDto>(category);
+        Category? category = await _mediator.Send(new CreateCategoryCommand { Name = dto.Name });
+        return _mapper.Map<CategoryReadDto>(category);
     }
 
     public async Task<IEnumerable<CategoryReadDto>> GetAll()
     {
-        List<CategoryReadDto> categoryReadDtoList = new List<CategoryReadDto>();
-
-        IEnumerable<Category> command = await _mediator.Send(new GetAllCategoryQuery());
-
-        foreach (Category category in command)
-        {
-            categoryReadDtoList.Add(_appMapper.ToReadDto<Category, CategoryReadDto>(category));
-        }
-
-        return categoryReadDtoList;
+        IEnumerable<Category> categories = await _mediator.Send(new GetAllCategoryQuery());
+        return _mapper.Map<IEnumerable<CategoryReadDto>>(categories);
     }
 
     public async Task<CategoryReadDto> GetOne(Guid guid)
     {
-        var command = new GetCategoryByIdQuery { Id = guid };
-
-        Category? category = await _mediator.Send(command);
-        
-        return _appMapper.ToReadDto<Category, CategoryReadDto>(category);
+        Category? category = await _mediator.Send(new GetCategoryByIdQuery { Id = guid });
+        return _mapper.Map<CategoryReadDto>(category);
     }
-    
+
     public async Task<CategoryReadDto> GetOne(string name)
     {
-        var command = new GetCategoryByNameQuery { Name = name };
-
-        Category? category = await _mediator.Send(command);
-
-        return _appMapper.ToReadDto<Category, CategoryReadDto>(category);
+        Category? category = await _mediator.Send(new GetCategoryByNameQuery { Name = name });
+        return _mapper.Map<CategoryReadDto>(category);
     }
-    
+
     private async Task CheckCategoryDoesNotExist(CategoryCreateDto dto)
     {
         Category? category = await _mediator.Send(new GetCategoryByNameQuery { Name = dto.Name });

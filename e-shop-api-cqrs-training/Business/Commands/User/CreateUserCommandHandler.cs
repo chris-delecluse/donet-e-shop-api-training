@@ -9,7 +9,7 @@ namespace Business.Commands.User;
 /// <summary>
 /// Handler for creating a new user.
 /// </summary>
-public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, CreateUserCommandResult>
+public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, AppUser>
 {
     private readonly UserManager<AppUser> _userManager;
 
@@ -25,9 +25,9 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Creat
     /// <param name="request">The create user command.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The task containing the result of creating the user.</returns>
-    public async Task<CreateUserCommandResult> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<AppUser> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        var user = new AppUser()
+        AppUser user = new AppUser
         {
             FirstName = request.FirstName,
             LastName = request.LastName,
@@ -39,6 +39,6 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Creat
 
         if (result.Succeeded) await _userManager.AddToRoleAsync(user, RoleName.Customer.ToString());
 
-        return new CreateUserCommandResult() { User = user };
+        return user;
     }
 }

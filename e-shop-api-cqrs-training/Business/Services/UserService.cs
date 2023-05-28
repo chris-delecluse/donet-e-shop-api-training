@@ -1,3 +1,4 @@
+using AutoMapper;
 using Business.Dtos.User;
 using Business.Interfaces;
 using Business.Validators;
@@ -17,19 +18,19 @@ namespace Business.Services;
 public class UserService : IUserService
 {
     private readonly IMediator _mediator;
-    private readonly IAppMapper _appMapper;
+    private readonly IMapper _mapper;
     private readonly UserManager<AppUser> _userManager;
 
     /// <summary>
     /// Constructor for UserService class.
     /// </summary>
     /// <param name="mediator">An instance of IMediator used for sending MediatR requests and receiving responses.</param>
-    /// <param name="appMapper">An instance of IAppMapper used for mapping objects between the application and domain layers.</param>
+    /// <param name="mapper">An instance of IMapper used for mapping objects between the application and domain layers.</param>
     /// <param name="userManager">An instance of UserManager used for managing user authentication and authorization.</param>
-    public UserService(IMediator mediator, IAppMapper appMapper, UserManager<AppUser> userManager)
+    public UserService(IMediator mediator, IMapper mapper, UserManager<AppUser> userManager)
     {
         _mediator = mediator;
-        _appMapper = appMapper;
+        _mapper = mapper;
         _userManager = userManager;
     }
 
@@ -38,7 +39,7 @@ public class UserService : IUserService
         await new UserCreateDtoValidator().ValidateAndThrowAsync(dto);
         await CheckUserDoesNotExist(dto.Email);
 
-        var userCommand = new CreateUserCommand()
+        var command = new CreateUserCommand()
         {
             FirstName = dto.FirstName,
             LastName = dto.LastName,
@@ -46,27 +47,20 @@ public class UserService : IUserService
             Email = dto.Email,
             Password = dto.Password
         };
-        var commandResult = await _mediator.Send(userCommand);
-
-        return _appMapper.ToReadDto<AppUser, UserReadDto>(commandResult.User);
+        AppUser user = await _mediator.Send(command);
+        return _mapper.Map<UserReadDto>(user);
     }
 
     public async Task<IEnumerable<UserReadDto>> GetAll()
     {
-        List<UserReadDto> userReadDtoList = new List<UserReadDto>();
-
         IEnumerable<AppUser> users = await _mediator.Send(new GetAllUsersQuery());
-
-        foreach (AppUser user in users) { userReadDtoList.Add(_appMapper.ToReadDto<AppUser, UserReadDto>(user)); }
-
-        return userReadDtoList;
+        return _mapper.Map<IEnumerable<UserReadDto>>(users);
     }
 
     public async Task<UserReadDto?> GetOneById(string id)
     {
         AppUser? user = await _mediator.Send(new GetUserByIdQuery() { Id = id });
-
-        return _appMapper.ToReadDto<AppUser, UserReadDto>(user);
+        return _mapper.Map<UserReadDto>(user);
     }
 
     public async Task<bool> ValidateUserPassword(AppUser user, string passwordEntry)

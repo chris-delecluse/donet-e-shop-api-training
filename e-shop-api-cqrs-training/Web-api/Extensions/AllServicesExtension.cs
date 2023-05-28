@@ -3,7 +3,6 @@ using Business.Commands.Product;
 using Business.Commands.Role;
 using Business.Commands.User;
 using Business.Interfaces;
-using Business.Mappings;
 using Business.Profiles;
 using Business.Queries.Category;
 using Business.Queries.Product;
@@ -43,7 +42,8 @@ public static class AllServicesExtension
         service.AddAutoMapper(typeof(Program),
             typeof(ProductProfile),
             typeof(CategoryProfile),
-            typeof(StockProfile)
+            typeof(StockProfile),
+            typeof(UserProfile)
         );
 
         service.AddMediatR(opt => opt.RegisterServicesFromAssembly(typeof(Program).Assembly));
@@ -61,7 +61,7 @@ public static class AllServicesExtension
         service.AddScoped<ICategoryService, CategoryService>();
 
         // cqrs user
-        service.AddScoped<IRequestHandler<CreateUserCommand, CreateUserCommandResult>, CreateUserCommandHandler>();
+        service.AddScoped<IRequestHandler<CreateUserCommand, AppUser>, CreateUserCommandHandler>();
         service.AddScoped<IRequestHandler<GetAllUsersQuery, IEnumerable<AppUser>>, GetAllUsersHandler>();
         service.AddScoped<IRequestHandler<GetUserByIdQuery, AppUser?>, GetUserByIdHandler>();
         service.AddScoped<IRequestHandler<GetUserByEmailQuery, AppUser?>, GetUserByEmailHandler>();
@@ -83,9 +83,6 @@ public static class AllServicesExtension
         service.AddScoped<IRequestHandler<GetProductDetailByIdQuery, Product?>, GetProductDetailByIdHandler>();
         service.AddScoped<IRequestHandler<GetProductIncludeCategoryByIdQuery, Product?>, GetProductIncludeCategoryByIdHandler>();
         service.AddScoped<IRequestHandler<GetProductIncludeStockByIdQuery, Product?>, GetProductIncludeStockByIdHandler>();
-
-        // utilities
-        service.AddScoped<IAppMapper, AppMapper>();
 
         return service;
     }
