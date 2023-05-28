@@ -28,59 +28,69 @@ public class ProductRepository : IProductRepository
 
     public async Task<IEnumerable<Product>> FindAsync()
     {
-        return await _dbContext.Products.ToListAsync();
+        return await _dbContext.Products.Where(x => x.IsDeleted == false)
+            .ToListAsync();
     }
 
     public async Task<IEnumerable<Product>> FindAsync(CancellationToken cancellationToken)
     {
-        return await _dbContext.Products.ToListAsync(cancellationToken);
+        return await _dbContext.Products.Where(x => x.IsDeleted == false)
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<Product?> FindAsync(Guid id)
     {
-        return await _dbContext.Products.FirstOrDefaultAsync(x => x.Id == id);
+        return await _dbContext.Products.Where(x => x.IsDeleted == false)
+            .FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<Product?> FindAsync(Guid id, CancellationToken cancellationToken)
     {
-        return await _dbContext.Products.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        return await _dbContext.Products.Where(x => x.IsDeleted == false)
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
     public async Task<Product?> FindAndIncludeFulLDetailAsync(Guid id)
     {
-        return await _dbContext.Products.Include(c => c.Category)
+        return await _dbContext.Products.Where(x => x.IsDeleted == false)
+            .Include(c => c.Category)
             .Include(s => s.ProductStock)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<Product?> FindAndIncludeFulLDetailAsync(Guid id, CancellationToken cancellationToken)
     {
-        return await _dbContext.Products.Include(c => c.Category)
+        return await _dbContext.Products.Where(x => x.IsDeleted == false)
+            .Include(c => c.Category)
             .Include(s => s.ProductStock)
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
     public async Task<Product?> FindAndIncludeCategoryAsync(Guid id)
     {
-        return await _dbContext.Products.Include(c => c.Category)
+        return await _dbContext.Products.Where(x => x.IsDeleted == false)
+            .Include(c => c.Category)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<Product?> FindAndIncludeCategoryAsync(Guid id, CancellationToken cancellationToken)
     {
-        return await _dbContext.Products.Include(c => c.Category)
+        return await _dbContext.Products.Where(x => x.IsDeleted == false)
+            .Include(c => c.Category)
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
     public async Task<Product?> FindAndIncludeStockAsync(Guid id)
     {
-        return await _dbContext.Products.Include(s => s.ProductStock)
+        return await _dbContext.Products.Where(x => x.IsDeleted == false)
+            .Include(s => s.ProductStock)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
 
     public async Task<Product?> FindAndIncludeStockAsync(Guid id, CancellationToken cancellationToken)
     {
-        return await _dbContext.Products.Include(s => s.ProductStock)
+        return await _dbContext.Products.Where(x => x.IsDeleted == false)
+            .Include(s => s.ProductStock)
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
