@@ -23,6 +23,6 @@ public class GetAllProductHandler : IRequestHandler<GetAllProductQuery, IEnumera
 
     public async Task<IEnumerable<E.Product>> Handle(GetAllProductQuery request, CancellationToken cancellationToken)
     {
-        return await _productRepository.FindAsync(cancellationToken);
+        return await _productRepository.FindAsync(request.Filter, cancellationToken);
     }
 }

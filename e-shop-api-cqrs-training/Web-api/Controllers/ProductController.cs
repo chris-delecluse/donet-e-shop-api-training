@@ -1,6 +1,7 @@
 using Business.Dtos.Product;
 using Business.Interfaces;
 using Dal.Entities;
+using Dal.Filters;
 using Error;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,14 +26,27 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductReadDto>>> GetAll() { return Ok(await _productService.GetAll()); }
+    public async Task<ActionResult<IEnumerable<ProductReadDto>>> GetAll(
+        [FromQuery] bool? isDeleted,
+        [FromQuery] bool? descendant
+    )
+    {
+        ProductListQueryFilter filter = new ProductListQueryFilter
+        {
+            IsDeleted = isDeleted, 
+            SortByDescending = descendant
+        };
+        
+        IEnumerable<ProductReadDto> result = await _productService.GetAll(filter);
+        return Ok(result);
+    }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductReadDto>> GetOne(Guid id)
     {
         try
         {
-            var result = await _productService.GetOne(id);
+            ProductReadDto? result = await _productService.GetOne(id);
             return Ok(result);
         }
         catch (NotFoundException<Product> e) { return NotFound(new { e.Message }); }
@@ -43,7 +57,7 @@ public class ProductController : ControllerBase
     {
         try
         {
-            var result = await _productService.GetOneWithDetails(id);
+            ProductDetailReadDto? result = await _productService.GetOneWithDetails(id);
             return Ok(result);
         }
         catch (NotFoundException<Product> e) { return NotFound(new { e.Message }); }
@@ -54,7 +68,7 @@ public class ProductController : ControllerBase
     {
         try
         {
-            var result = await _productService.GetOneIncludeCategory(id);
+            ProductWithCategoryReadDto? result = await _productService.GetOneIncludeCategory(id);
             return Ok(result);
         }
         catch (NotFoundException<Product> e) { return NotFound(new { e.Message }); }
@@ -65,14 +79,14 @@ public class ProductController : ControllerBase
     {
         try
         {
-            var result = await _productService.GetOneIncludeStock(id);
+            ProductWithStockReadDto? result = await _productService.GetOneIncludeStock(id);
             return Ok(result);
         }
         catch (NotFoundException<Product> e) { return NotFound(new { e.Message }); }
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<ProductWithStockReadDto>> SoftDeleteOne(Guid id)
+    public async Task<ActionResult<string>> SoftDeleteOne(Guid id)
     {
         try
         {

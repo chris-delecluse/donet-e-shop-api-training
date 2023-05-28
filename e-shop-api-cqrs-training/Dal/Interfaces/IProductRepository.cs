@@ -1,4 +1,5 @@
 using Dal.Entities;
+using Dal.Filters;
 
 namespace Dal.Interfaces;
 
@@ -29,17 +30,19 @@ public interface IProductRepository
     # region Find a product (basic and include some category).
 
     /// <summary>
-    /// Retrieves all products from the repository.
+    /// Retrieves a list of products from the repository based on the specified filter.
     /// </summary>
-    /// <returns>A collection of products.</returns>
-    Task<IEnumerable<Product>> FindAsync();
+    /// <param name="filter">The filter to apply.</param>
+    /// <returns>The list of found products.</returns>
+    Task<IEnumerable<Product>> FindAsync(ProductListQueryFilter filter);
 
     /// <summary>
-    /// Retrieves all products from the repository with a cancellation token.
+    /// Retrieves a list of products from the repository based on the specified filter and cancellation token.
     /// </summary>
+    /// <param name="filter">The filter to apply.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A collection of products.</returns>
-    Task<IEnumerable<Product>> FindAsync(CancellationToken cancellationToken);
+    /// <returns>The list of found products.</returns>
+    Task<IEnumerable<Product>> FindAsync(ProductListQueryFilter filter, CancellationToken cancellationToken);
 
     /// <summary>
     /// Retrieves a product by its ID from the repository.
@@ -105,8 +108,19 @@ public interface IProductRepository
 
     # region Update a product.
 
+    /// <summary>
+    /// Updates a product in the repository.
+    /// </summary>
+    /// <param name="product">The product to update.</param>
+    /// <returns>True if the update is successful, false otherwise.</returns>
     Task<bool> UpdateProductAsync(Product product);
-    
+
+    /// <summary>
+    /// Updates a product in the repository with a cancellation token.
+    /// </summary>
+    /// <param name="product">The product to update.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>True if the update is successful, false otherwise.</returns>
     Task<bool> UpdateProductAsync(Product product, CancellationToken cancellationToken);
 
     #endregion

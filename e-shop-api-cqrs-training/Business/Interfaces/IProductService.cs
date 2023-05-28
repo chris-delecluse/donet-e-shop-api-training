@@ -1,4 +1,5 @@
 using Business.Dtos.Product;
+using Dal.Filters;
 
 namespace Business.Interfaces
 {
@@ -18,7 +19,7 @@ namespace Business.Interfaces
         /// Retrieves all existing products.
         /// </summary>
         /// <returns>A collection of ProductReadDto objects representing all products.</returns>
-        Task<IEnumerable<ProductReadDto>> GetAll();
+        Task<IEnumerable<ProductReadDto>> GetAll(ProductListQueryFilter filter);
 
         /// <summary>
         /// Retrieves a specific product using the unique identifier guid.

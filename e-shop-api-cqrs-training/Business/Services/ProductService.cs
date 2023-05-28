@@ -4,6 +4,7 @@ using Business.Interfaces;
 using Business.Validators;
 using Dal.Commands.Product;
 using Dal.Entities;
+using Dal.Filters;
 using Dal.Queries.Product;
 using FluentValidation;
 using MediatR;
@@ -39,9 +40,9 @@ public class ProductService : IProductService
         return _mapper.Map<ProductReadDto>(product);
     }
 
-    public async Task<IEnumerable<ProductReadDto>> GetAll()
+    public async Task<IEnumerable<ProductReadDto>> GetAll(ProductListQueryFilter filter)
     {
-        IEnumerable<Product> command = await _mediator.Send(new GetAllProductQuery());
+        IEnumerable<Product> command = await _mediator.Send(new GetAllProductQuery { Filter = filter });
         return _mapper.Map<IEnumerable<ProductReadDto>>(command);
     }
 
