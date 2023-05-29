@@ -33,10 +33,9 @@ public class ProductController : ControllerBase
     {
         ProductListQueryFilter filter = new ProductListQueryFilter
         {
-            IsDeleted = isDeleted, 
-            SortByDescending = descendant
+            IsDeleted = isDeleted, SortByDescending = descendant
         };
-        
+
         IEnumerable<ProductReadDto> result = await _productService.GetAll(filter);
         return Ok(result);
     }
