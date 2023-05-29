@@ -4,6 +4,7 @@ using Dal.Entities;
 using Dal.Filters;
 using Error;
 using Microsoft.AspNetCore.Mvc;
+using Web_api.Swagger.Params;
 
 namespace Web_api.Controllers;
 
@@ -27,13 +28,16 @@ public class ProductController : ControllerBase
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProductReadDto>>> GetAll(
-        [FromQuery] bool? isDeleted,
-        [FromQuery] bool? descendant
+        [FromQuery] bool? descendant,
+        [FromQuery] IsDeletedParam isDeleted
     )
     {
+        Console.WriteLine($"isDeleted: {isDeleted.param}");
+
         ProductListQueryFilter filter = new ProductListQueryFilter
         {
-            IsDeleted = isDeleted, SortByDescending = descendant
+            IsDeleted = false, 
+            SortByDescending = descendant
         };
 
         IEnumerable<ProductReadDto> result = await _productService.GetAll(filter);

@@ -1,4 +1,5 @@
 using Microsoft.OpenApi.Models;
+using Web_api.Swagger;
 
 namespace Web_api.Extensions;
 
@@ -36,6 +37,7 @@ public static class SwaggerServiceExtension
                         }
                     }
                 );
+                option.ParameterFilter<CustomSwaggerParameterFilter>();
             }
         );
         return service;
