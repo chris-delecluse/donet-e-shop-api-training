@@ -6,5 +6,5 @@ namespace Dal.Queries.Product;
 
 public class GetAllProductQuery : IRequest<IEnumerable<E.Product>>
 {
-    public ProductListQueryFilter? Filter { get; init; }
+    public ProductListQueryFilters? Filter { get; init; }
 }

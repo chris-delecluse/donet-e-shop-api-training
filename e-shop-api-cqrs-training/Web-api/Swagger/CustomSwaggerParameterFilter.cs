@@ -34,7 +34,8 @@ internal class CustomSwaggerParameterFilter : IParameterFilter
             {
                 OpenApiExample? example = new OpenApiExample
                 {
-                    Description = item.Description, 
+                    Description = item.Description,
+                    // condition pour voir le type of item.value et instancier le bon type en fonction, factory ?
                     Value = new OpenApiString((item.Value?.ToString()))
                 };
 

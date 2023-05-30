@@ -29,24 +29,24 @@ public class ProductRepository : IProductRepository
         return result.Entity;
     }
 
-    public async Task<IEnumerable<Product>> FindAsync(ProductListQueryFilter filter)
+    public async Task<IEnumerable<Product>> FindAsync(ProductListQueryFilters filters)
     {
-        IQueryable<Product>? query = _dbContext.Products.Where(x => filter.IsDeleted == null || x.IsDeleted == filter.IsDeleted);
+        IQueryable<Product>? query = _dbContext.Products.Where(x => filters.IsDeleted == null || x.IsDeleted == filters.IsDeleted);
         
-        query = filter.SortByDescending is not null && filter.SortByDescending is true ? 
+        query = filters.SortByDescending is not null && filters.SortByDescending is true ? 
             query.OrderByDescending(x => x.Name) : query.OrderBy(x => x.Name);
 
         return await query.ToListAsync();
     }
 
     public async Task<IEnumerable<Product>> FindAsync(
-        ProductListQueryFilter filter,
+        ProductListQueryFilters filters,
         CancellationToken cancellationToken
     )
     {
-        IQueryable<Product>? query = _dbContext.Products.Where(x => filter.IsDeleted == null || x.IsDeleted == filter.IsDeleted);
+        IQueryable<Product>? query = _dbContext.Products.Where(x => filters.IsDeleted == null || x.IsDeleted == filters.IsDeleted);
         
-        query = filter.SortByDescending is not null && filter.SortByDescending is true ? 
+        query = filters.SortByDescending is not null && filters.SortByDescending is true ? 
             query.OrderByDescending(x => x.Name) : query.OrderBy(x => x.Name);
 
         return await query.ToListAsync(cancellationToken);

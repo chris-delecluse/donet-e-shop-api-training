@@ -32,17 +32,17 @@ public interface IProductRepository
     /// <summary>
     /// Retrieves a list of products from the repository based on the specified filter.
     /// </summary>
-    /// <param name="filter">The filter to apply.</param>
+    /// <param name="filters">The filter to apply.</param>
     /// <returns>The list of found products.</returns>
-    Task<IEnumerable<Product>> FindAsync(ProductListQueryFilter filter);
+    Task<IEnumerable<Product>> FindAsync(ProductListQueryFilters filters);
 
     /// <summary>
     /// Retrieves a list of products from the repository based on the specified filter and cancellation token.
     /// </summary>
-    /// <param name="filter">The filter to apply.</param>
+    /// <param name="filters">The filter to apply.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The list of found products.</returns>
-    Task<IEnumerable<Product>> FindAsync(ProductListQueryFilter filter, CancellationToken cancellationToken);
+    Task<IEnumerable<Product>> FindAsync(ProductListQueryFilters filters, CancellationToken cancellationToken);
 
     /// <summary>
     /// Retrieves a product by its ID from the repository.

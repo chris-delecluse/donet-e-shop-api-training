@@ -7,6 +7,12 @@ public class SwaggerParameterAttribute : Attribute
     public object? Value { get; set; }
     public string? Description { get; set; }
 
+    public SwaggerParameterAttribute(string name)
+    {
+        Name = name;
+        Value = name;
+    }
+
     public SwaggerParameterAttribute(string name, object? value)
     {
         Name = name;

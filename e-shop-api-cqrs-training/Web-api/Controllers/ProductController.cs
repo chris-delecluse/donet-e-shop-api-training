@@ -28,19 +28,22 @@ public class ProductController : ControllerBase
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProductReadDto>>> GetAll(
+        // bool? descendant, a retirer car il est dans l'object  "ProductListFromQueryParamExample"
         [FromQuery] bool? descendant,
-        [FromQuery] IsDeletedParam isDeleted
+        [FromQuery] ProductListFromQueryParamExample queryParamExample
     )
     {
-        Console.WriteLine($"isDeleted: {isDeleted.param}");
+        // deplacer la logique d'assignation filtrage dans le service.
+        Console.WriteLine($"isDeleted: {queryParamExample.IsDeleted}");
+        Console.WriteLine($"isDeleted: {queryParamExample.SortBy}");
 
-        ProductListQueryFilter filter = new ProductListQueryFilter
+        ProductListQueryFilters filters = new ProductListQueryFilters
         {
             IsDeleted = false, 
             SortByDescending = descendant
         };
 
-        IEnumerable<ProductReadDto> result = await _productService.GetAll(filter);
+        IEnumerable<ProductReadDto> result = await _productService.GetAll(filters);
         return Ok(result);
     }
 

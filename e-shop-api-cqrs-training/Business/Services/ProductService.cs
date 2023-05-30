@@ -40,9 +40,9 @@ public class ProductService : IProductService
         return _mapper.Map<ProductReadDto>(product);
     }
 
-    public async Task<IEnumerable<ProductReadDto>> GetAll(ProductListQueryFilter filter)
+    public async Task<IEnumerable<ProductReadDto>> GetAll(ProductListQueryFilters filters)
     {
-        IEnumerable<Product> command = await _mediator.Send(new GetAllProductQuery { Filter = filter });
+        IEnumerable<Product> command = await _mediator.Send(new GetAllProductQuery { Filter = filters });
         return _mapper.Map<IEnumerable<ProductReadDto>>(command);
     }
 
