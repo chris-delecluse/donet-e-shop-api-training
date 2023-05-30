@@ -2,11 +2,13 @@ namespace Web_api.Swagger.Params;
 
 public class ProductListFromQueryParamExample
 {
-    [SwaggerParameter("True")]
-    [SwaggerParameter("False")]
-    public string? IsDeleted { get; set; }
-    
-    [SwaggerParameter("Asc")]
-    [SwaggerParameter("Desc")]
+    [SwaggerParameter("true")]
+    [SwaggerParameter("false")]
+    public bool? IsDeleted { get; set; }
+
+    [SwaggerParameter("asc")]
+    [SwaggerParameter("desc")]
     public string? SortBy { get; set; }
+
+    public string? Search { get; set; }
 }

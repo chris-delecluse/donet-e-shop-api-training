@@ -22,7 +22,7 @@ internal class CustomSwaggerParameterFilter : IParameterFilter
 
         if (parameterAttributes is not null && parameterAttributes.Any())
         {
-            parameter.Examples.Add("--", 
+            parameter.Examples.Add("--",
                 new OpenApiExample
                 {
                     Value = new OpenApiNull(), 
@@ -32,11 +32,25 @@ internal class CustomSwaggerParameterFilter : IParameterFilter
 
             foreach (var item in parameterAttributes)
             {
+                IOpenApiAny? exampleValue = null;
+
+                if (item.Value is string valueString)
+                {
+                    exampleValue = new OpenApiString(valueString);
+                }
+                else if (item.Value is bool valueBool)
+                {
+                    exampleValue = new OpenApiBoolean(valueBool);
+                }
+                else if (item.Value is int valueInt)
+                {
+                    exampleValue = new OpenApiInteger(valueInt);
+                }
+
                 OpenApiExample? example = new OpenApiExample
                 {
                     Description = item.Description,
-                    // condition pour voir le type of item.value et instancier le bon type en fonction, factory ?
-                    Value = new OpenApiString((item.Value?.ToString()))
+                    Value = exampleValue
                 };
 
                 parameter.Examples.Add(item.Name, example);
